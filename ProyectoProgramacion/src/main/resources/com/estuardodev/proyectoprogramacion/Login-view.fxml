@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.estuardodev.proyectoprogramacion.LoginController">
+   <children>
+      <Button fx:id="btnLogin" onAction="#LoginUser" layoutX="357.0" layoutY="314.0" mnemonicParsing="false" text="Iniciar Sesión" />
+      <Label  layoutX="258.0" layoutY="199.0" text="Nombre de Usuario" />
+      <Label layoutX="258.0" layoutY="258.0" text="Contraseña" />
+      <TextField fx:id="txtUsername" layoutX="250.0" layoutY="216.0" prefHeight="25.0" prefWidth="305.0" promptText="Ingresa tu nombre de usuario" />
+      <Button fx:id="btnCreate" onAction="#CreateUser" layoutX="358.0" layoutY="406.0" mnemonicParsing="false" text="Crear cuenta" />
+      <Separator layoutX="300.0" layoutY="361.0" prefWidth="200.0" />
+      <Separator layoutX="300.0" layoutY="389.0" prefWidth="200.0" />
+      <PasswordField fx:id="txtPass" layoutX="251.0" layoutY="275.0" prefHeight="25.0" prefWidth="305.0" promptText="Ingresa tu contraseña" />
+      <Label layoutX="395.0" layoutY="364.0" text="o" />
+      <Label layoutX="280.0" layoutY="66.0" text="INICIO DE SESIÓN">
+         <font>
+            <Font name="Arial Bold" size="27.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

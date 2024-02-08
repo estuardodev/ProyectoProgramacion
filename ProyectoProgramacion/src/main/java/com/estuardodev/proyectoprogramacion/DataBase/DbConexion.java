@@ -1,10 +1,10 @@
-package com.estuardodev.proyectoprogramacion;
+package com.estuardodev.proyectoprogramacion.DataBase;
 
 import java.sql.*;
 
 public class DbConexion {
     static String url = "jdbc:postgresql://";
-    static String db = "Proyecto";
+    static String db = "Universidad";
     static String user = "postgres";
     static String password = "123";
     static String host = "localhost";
@@ -46,6 +46,16 @@ public class DbConexion {
             throw new RuntimeException(e);
         }
         return rs;
+    }
+
+    public static void ejecutarInsercion(String query) {
+        try {
+            Connection connection = DbConexion.Conexion();
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al ejecutar la consulta de inserción: " + e.getMessage(), e);
+        }
     }
 
 }

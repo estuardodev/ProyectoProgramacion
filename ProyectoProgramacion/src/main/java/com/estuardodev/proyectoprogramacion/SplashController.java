@@ -1,32 +1,35 @@
 package com.estuardodev.proyectoprogramacion;
 
-import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ProgressBar;
+import javafx.util.Duration;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class HelloController {
-    @FXML
-    private Label welcomeText;
-    @FXML
-    private TextField search;
+public class SplashController {
 
     @FXML
-    protected void onHelloButtonClick() {
-        String consulta = "SELECT * FROM usuarios WHERE nombre = ?";
-        try {
-            ResultSet rs = DbConexion.ConsultaSQL(consulta, search.getText());
-            if (rs.next()) {
-                welcomeText.setText("Welcome " + rs.getString("nombre") + " to JavaFX Application!");
-            } else {
-                welcomeText.setText("User not found");
-            }
+    private ProgressBar pgBar;
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    @FXML
+    public void initialize() {
+        // Configuración de la animación
+        Duration duration = Duration.seconds(3); // Duración total de la animación (3 segundos)
+        double finalValue = 1.0; // Valor final (100%)
+
+        // Creación del timeline
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, event -> {
+                    // Acción al inicio de la animación (valor inicial de la barra de progreso)
+                    pgBar.setProgress(0);
+                }),
+                new KeyFrame(duration, event -> {
+                    // Acción al final de la animación (valor final de la barra de progreso)
+                    pgBar.setProgress(finalValue);
+                })
+        );
+
+        // Ejecutar la animación
+        timeline.play();
     }
 }

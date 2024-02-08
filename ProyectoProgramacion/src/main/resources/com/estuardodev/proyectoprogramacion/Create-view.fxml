@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.estuardodev.proyectoprogramacion.CreateUserController">
+
+   <children>
+      <Button fx:id="btnRegister" layoutX="262.0" layoutY="464.0" mnemonicParsing="false" onAction="#btnRegister" prefHeight="25.0" prefWidth="285.0" text="Registrame" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font></Button>
+      <Label layoutX="258.0" layoutY="92.0" text="Código Personal de Identificación (DPI)" />
+      <Label layoutX="260.0" layoutY="188.0" text="Código de teléfono" />
+      <ComboBox fx:id="boxCode" layoutX="259.0" layoutY="213.0" prefHeight="25.0" prefWidth="103.0" />
+      <Label layoutX="258.0" layoutY="140.0" text="Nombres y Apellidos" />
+      <TextField fx:id="txtNombre" layoutX="258.0" layoutY="156.0" prefHeight="25.0" prefWidth="285.0" />
+      <Label layoutX="395.0" layoutY="188.0" text="Número de Teléfono" />
+      <TextField fx:id="txtNumber" layoutX="392.0" layoutY="213.0" />
+      <Label layoutX="259.0" layoutY="300.0" text="Dirección de residencia" />
+      <TextField fx:id="txtAdress" layoutX="259.0" layoutY="317.0" prefHeight="25.0" prefWidth="285.0" />
+      <Label layoutX="260.0" layoutY="351.0" text="Nombre de Usuario" />
+      <Label layoutX="260.0" layoutY="400.0" text="Contraseña" />
+      <TextField fx:id="txtUsername" layoutX="260.0" layoutY="368.0" prefHeight="25.0" prefWidth="285.0" promptText="username" />
+      <Label fx:id="lbMessage" layoutX="267.0" layoutY="552.0" text="Por favor rellena todos los campos correctamente." textAlignment="CENTER" textFill="#ff0101" visible="false" />
+      <PasswordField fx:id="txtPass" layoutX="260.0" layoutY="417.0" prefHeight="25.0" prefWidth="285.0" promptText="NUNCA COMPARTAS TU CONTRASEÑA" />
+      <Label layoutX="228.0" layoutY="43.0" text="REGISTRO DE USUARIOS">
+         <font>
+            <Font name="Arial Bold" size="28.0" />
+         </font>
+      </Label>
+      <Separator layoutX="303.0" layoutY="83.0" prefWidth="200.0" />
+      <Separator layoutX="303.0" layoutY="504.0" prefWidth="200.0" />
+      <Button fx:id="btnLogin" layoutX="359.0" layoutY="516.0" mnemonicParsing="false" onAction="#btnLogin" text="Iniciar Sesión" />
+      <TextField fx:id="txtDpi" layoutX="260.0" layoutY="109.0" prefHeight="25.0" prefWidth="285.0" promptText="Sin espacios, ni guiones" />
+      <Label layoutX="260.0" layoutY="248.0" text="Correo electrónico" />
+      <TextField fx:id="txtCorreo" layoutX="258.0" layoutY="265.0" prefHeight="25.0" prefWidth="285.0" promptText="correo@ejemplo.com" />
+   </children>
+</Pane>
