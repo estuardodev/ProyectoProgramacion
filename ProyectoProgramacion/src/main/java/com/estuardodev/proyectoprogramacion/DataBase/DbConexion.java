@@ -24,12 +24,24 @@ public class DbConexion {
         return connection;
     }
 
-    public static ResultSet ConsultaSQL(String Query){
+    public static ResultSet ConsultaSQL(String query){
         ResultSet rs;
         try {
             Connection connection = DbConexion.Conexion();
             Statement stmt = connection.createStatement();
-            rs = stmt.executeQuery(Query);
+            rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rs;
+    }
+    public static ResultSet ConsultaSQL(String query, String parametro) {
+        ResultSet rs;
+        try {
+            Connection connection = DbConexion.Conexion();
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, parametro);
+            rs = pstmt.executeQuery();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
