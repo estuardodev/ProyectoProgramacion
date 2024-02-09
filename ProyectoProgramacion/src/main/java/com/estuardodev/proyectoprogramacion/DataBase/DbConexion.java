@@ -67,4 +67,20 @@ public class DbConexion {
             throw new RuntimeException("Error al ejecutar la consulta de actualización: " + e.getMessage(), e);
         }
     }
+
+
+    public static void eliminarRegistro(String tabla, String campo, String campo2, String valor1, String valor2) {
+        try {
+            Connection connection = DbConexion.Conexion();
+            String query = "DELETE FROM " + tabla + " WHERE " + campo + " = ? AND "+campo2+"= ?";
+            PreparedStatement pstmt = connection.prepareStatement(query);
+            pstmt.setString(1, valor1);
+            pstmt.setString(2, valor2);
+            pstmt.executeUpdate();
+            System.out.println("Registro eliminado correctamente de la tabla " + tabla);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al eliminar registro de la tabla " + tabla + ": " + e.getMessage(), e);
+        }
+    }
+
 }

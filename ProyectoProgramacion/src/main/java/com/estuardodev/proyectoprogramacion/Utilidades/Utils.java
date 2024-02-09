@@ -3,7 +3,12 @@ package com.estuardodev.proyectoprogramacion.Utilidades;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
+
+import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 import com.resend.*;
 import com.resend.core.exception.ResendException;
 import com.resend.services.emails.model.SendEmailRequest;
@@ -55,4 +60,29 @@ public class Utils {
         }
     }
 
+    public static int obtenerIdAutor(String nombreAutor) throws SQLException {
+        String queryAutor = "SELECT id FROM autor WHERE nombre = ?";
+        try (PreparedStatement psAutor = DbConexion.Conexion().prepareStatement(queryAutor)) {
+            psAutor.setString(1, nombreAutor);
+            ResultSet rsAutor = psAutor.executeQuery();
+            if (rsAutor.next()) {
+                return rsAutor.getInt("id");
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    public static int obtenerIdEditorial(String nombreEditorial) throws SQLException {
+        String queryEditorial = "SELECT id FROM editorial WHERE nombre = ?";
+        try (PreparedStatement psEditorial = DbConexion.Conexion().prepareStatement(queryEditorial)) {
+            psEditorial.setString(1, nombreEditorial);
+            ResultSet rsEditorial = psEditorial.executeQuery();
+            if (rsEditorial.next()) {
+                return rsEditorial.getInt("id");
+            } else {
+                return 0;
+            }
+        }
+    }
 }
