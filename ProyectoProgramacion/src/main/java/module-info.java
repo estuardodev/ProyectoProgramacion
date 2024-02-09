@@ -7,6 +7,7 @@ module com.estuardodev.proyectoprogramacion {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires hibernate.jpa;
+    requires resend.java;
 
     opens com.estuardodev.proyectoprogramacion to javafx.fxml;
     exports com.estuardodev.proyectoprogramacion;

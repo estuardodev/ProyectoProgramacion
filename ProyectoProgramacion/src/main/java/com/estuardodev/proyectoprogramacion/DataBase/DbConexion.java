@@ -58,4 +58,13 @@ public class DbConexion {
         }
     }
 
+    public static void ejecutarUpdate(String query) {
+        try {
+            Connection connection = DbConexion.Conexion();
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(query);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al ejecutar la consulta de actualización: " + e.getMessage(), e);
+        }
+    }
 }

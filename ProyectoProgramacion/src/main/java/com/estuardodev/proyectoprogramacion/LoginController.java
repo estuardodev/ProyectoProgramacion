@@ -104,4 +104,9 @@ public class LoginController implements StageAwareController{
         pa.mostrarVista(stage, "Create-view.fxml");
     }
 
+    @FXML
+    protected void hlOlvide() throws IOException {
+        ProyectoApplication pa = new ProyectoApplication();
+        pa.mostrarVista(stage, "RecuperarPassword.fxml");
+    }
 }
