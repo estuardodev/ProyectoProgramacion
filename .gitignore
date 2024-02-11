@@ -4,6 +4,7 @@
 # Propio
 id.txt
 secret-key.txt
+secrets.json
 
 ### Java ###
 # Compiled class file
