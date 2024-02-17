@@ -9,11 +9,15 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
 import java.io.*;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 public class AdminMetodos {
 
@@ -65,7 +69,7 @@ public class AdminMetodos {
         lb.setVisible(true);
     }
 
-    protected void cargarListView(ListView listView, String columna, String tabla){
+    public void cargarListView(ListView listView, String columna, String tabla){
         try {
             String consulta = "SELECT " + columna + " FROM " + tabla;
             ResultSet rs = DbConexion.ConsultaSQL(consulta);
@@ -81,7 +85,7 @@ public class AdminMetodos {
         }
     }
 
-    protected ResultSet perfilUser(){
+    public ResultSet perfilUser(){
         File file = new File("id.txt");
         ResultSet rs = null;
         try {
@@ -96,7 +100,7 @@ public class AdminMetodos {
         return rs;
     }
 
-    protected void comboBoxConsultar(String columna, String tabla, ComboBox<String> cb){
+    public void comboBoxConsultar(String columna, String tabla, ComboBox<String> cb){
         try {
             String consulta = "SELECT "+columna+" FROM "+tabla;
             ResultSet rs = DbConexion.ConsultaSQL(consulta);
@@ -152,22 +156,22 @@ public class AdminMetodos {
             e.printStackTrace();
         }
     }
-    protected void mostrarMensaje(String mensaje) {
+    public void mostrarMensaje(String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Exportación de datos");
         alert.setHeaderText(null);
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-    protected void GuardarAccion(String tipo_CRUD, ResultSet rs, String accion){
+    public void GuardarAccion(String tipo_CRUD, ResultSet rs, String accion){
         try {
             if (rs.next()) {
                 String recolectar = rs.getString("recopilar");
                 if (recolectar.equals("true") || recolectar.equals("t")){
                     String id = rs.getString("id");
                     String _accion = "El usuario " + rs.getString("username") +
-                            " realizó " + tipo_CRUD+" " + accion + " - " + obtenerFechaActual(true);
-                    String fecha = obtenerFechaActual(true);
+                            " realizó " + tipo_CRUD+" " + accion + " - " + obtenerFechaActual(true, false);
+                    String fecha = obtenerFechaActual(true, false);
                     String query = "INSERT INTO historial_acciones (usuario_id, accion, fecha) " +
                             "VALUES ('"+id+"', '"+_accion+"', '"+fecha+"')";
 
@@ -179,7 +183,7 @@ public class AdminMetodos {
             e.printStackTrace();
         }
     }
-    public static String obtenerFechaActual(boolean hora) {
+    public static String obtenerFechaActual(boolean hora, boolean prestado) {
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatter;
         if(hora){
@@ -187,12 +191,21 @@ public class AdminMetodos {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String fechaHoraFormateada = fechaHoraActual.format(formatter);
             return fechaHoraFormateada;
-        }else{
+        }else if(prestado) {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String fechaFormateada = fechaActual.format(formatter);
 
-            return fechaFormateada;
+            LocalDate fechaMas14Dias = fechaActual.plusDays(14);
+            String fechaMas14DiasFormateada = fechaMas14Dias.format(formatter);
+
+            return fechaMas14DiasFormateada;
+
+        }else{
+                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String fechaFormateada = fechaActual.format(formatter);
+
+                return fechaFormateada;
+            }
         }
     }
 
-}
+

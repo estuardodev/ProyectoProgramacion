@@ -25,6 +25,7 @@
             <Font name="Arial Bold" size="27.0" />
          </font>
       </Label>
-      <Hyperlink fx:id="hlOlvide" onAction="#hlOlvide" layoutX="344.0" layoutY="446.0" text="Olvidé mi contraseña" />
+      <Hyperlink fx:id="hlOlvide" layoutX="344.0" layoutY="446.0" onAction="#hlOlvide" text="Olvidé mi contraseña" />
+      <Label fx:id="txtError" alignment="CENTER" layoutX="274.0" layoutY="166.0" prefHeight="17.0" prefWidth="263.0" />
    </children>
 </Pane>

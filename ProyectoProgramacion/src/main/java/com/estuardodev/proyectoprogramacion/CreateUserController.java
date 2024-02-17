@@ -72,7 +72,7 @@ public class CreateUserController implements Initializable, StageAwareController
             String email = txtCorreo.getText();
 
             if (nombre.isBlank() || number.isBlank() || address.isBlank() || code.isBlank()
-                    || user.isBlank() || pass.isBlank() || dpi.isBlank() || dpi.length() > 13) {
+                    || user.isBlank() || pass.isBlank() || dpi.isBlank() || dpi.length() != 13) {
                 lbMessage.setVisible(true);
             } else {
                 String verificar_user = "SELECT * FROM usuario WHERE username = '" + user + "'";
@@ -93,8 +93,8 @@ public class CreateUserController implements Initializable, StageAwareController
                     if (rs.next()) {
                         String id_code = rs.getString("id");
 
-                        String query = "INSERT INTO usuario (nombre, identificador, telefono, direccion, codigo_telefono, username, password, activo) VALUES ('" +
-                                nombre + "', '" + dpi + "', '" + number + "', '" + address + "', '" + id_code + "', '" + user + "', '" + pass + "', true)";
+                        String query = "INSERT INTO usuario (nombre, identificador, telefono, direccion, codigo_telefono, username, password, activo, email) VALUES ('" +
+                                nombre + "', '" + dpi + "', '" + number + "', '" + address + "', '" + id_code + "', '" + user + "', '" + pass + "', true, '"+email+"')";
                         DbConexion.ejecutarInsercion(query);
 
                         lbMessage.setVisible(true);

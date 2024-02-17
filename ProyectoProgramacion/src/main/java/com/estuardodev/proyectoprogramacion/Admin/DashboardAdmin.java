@@ -29,6 +29,7 @@ public class DashboardAdmin implements StageAwareController, Initializable {
 
     private Stage stage;
     private AdminMetodos am = new AdminMetodos();
+    Utils utils = new Utils();
 
     // Libros
     @FXML
@@ -473,35 +474,7 @@ public class DashboardAdmin implements StageAwareController, Initializable {
     }
     @FXML
     protected void ExportarHistorial(){
-        ObservableList<String> items = historialView.getItems();
-        int contador = 1;
-        JsonArray jsonArray = new JsonArray();
-        for (String item : items) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("item" + contador, item);
-            jsonArray.add(jsonObject);
-            contador += 1;
-        }
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Guardar archivo JSON");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo JSON", "*.json"));
-        File selectedFile = fileChooser.showSaveDialog(null);
-
-        if (selectedFile != null) {
-            // Guardar el JSONArray en el archivo JSON seleccionado por el usuario
-            try (FileWriter fileWriter = new FileWriter(selectedFile)) {
-                fileWriter.write(jsonArray.toString());
-                am.mostrarMensaje("Datos exportados correctamente a " + selectedFile.getAbsolutePath());
-                am.GuardarAccion("una", am.perfilUser(), "exportación");
-            } catch (IOException e) {
-                e.printStackTrace();
-                am.mostrarMensaje("Error al exportar los datos.");
-            }
-        } else {
-            am.mostrarMensaje("Exportación cancelada por el usuario.");
-        }
-
+        utils.ExportarHistorial(historialView);
     }
 
 }

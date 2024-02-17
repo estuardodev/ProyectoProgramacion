@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.BufferedWriter;
@@ -22,11 +23,13 @@ public class LoginController implements StageAwareController{
     private Stage stage;
 
     @FXML
-    public TextField txtUsername;
+    private TextField txtUsername;
     @FXML
-    public Button btnLogin, btnCreate;
+    private Button btnLogin, btnCreate;
     @FXML
-    public PasswordField txtPass;
+    private PasswordField txtPass;
+    @FXML
+    private Label txtError;
 
     @Override
     public void setStage(Stage stage) {
@@ -82,14 +85,16 @@ public class LoginController implements StageAwareController{
                         pa.mostrarVista(stage, "DashboardUser.fxml");
                     }
 
-                    // Aquí puedes hacer lo que necesites con la información del usuario autenticado
+
                 } else {
-                    // La contraseña no coincide
+                    txtError.setTextFill(Color.RED);
                     System.out.println("Contraseña incorrecta");
+                    txtError.setText("Contraseña Incorrecta.");
                 }
             } else {
-                // No se encontró ningún usuario con ese nombre de usuario
                 System.out.println("Usuario no encontrado");
+                txtError.setTextFill(Color.RED);
+                txtError.setText("Usuario Inexistente.");
             }
         } catch (SQLException e) {
             e.printStackTrace();

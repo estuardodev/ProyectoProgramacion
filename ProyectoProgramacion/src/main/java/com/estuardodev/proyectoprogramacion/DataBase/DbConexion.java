@@ -1,14 +1,17 @@
 package com.estuardodev.proyectoprogramacion.DataBase;
 
+import com.estuardodev.proyectoprogramacion.Utilidades.Utils;
+
 import java.sql.*;
 
 public class DbConexion {
-    static String url = "jdbc:postgresql://";
-    static String db = "Universidad";
-    static String user = "postgres";
-    static String password = "123";
-    static String host = "localhost";
-    static String port = "5432";
+
+    static String url = Utils.getStringJson("secrets.json", "url");;
+    static String db = Utils.getStringJson("secrets.json", "database");;
+    static String user = Utils.getStringJson("secrets.json", "user");;
+    static String password = Utils.getStringJson("secrets.json", "password");;
+    static String host = Utils.getStringJson("secrets.json", "host");;
+    static String port = Utils.getStringJson("secrets.json", "port");;
     static String URLPostgres = url + host + ":" + port + "/" + db;
 
     public static Connection Conexion() {
