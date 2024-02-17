@@ -496,7 +496,8 @@ public class    DashboardUser implements StageAwareController, Initializable {
                                 "total_deudas_pendientes = '0'," +
                                 "multas_pendientes = 0," +
                                 "cantidad_prestamo = 0, " +
-                                "vencimiento_prestamo = NULL WHERE id = '"+perfil.getString("id")+"'";
+                                "vencimiento_prestamo = NULL," +
+                                "librosprestados = '' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
@@ -519,7 +520,8 @@ public class    DashboardUser implements StageAwareController, Initializable {
                                 "total_deudas_pendientes = '0'," +
                                 "multas_pendientes = 0," +
                                 "cantidad_prestamo = 0, " +
-                                "vencimiento_prestamo = NULL WHERE id = '"+perfil.getString("id")+"'";
+                                "vencimiento_prestamo = NULL," +
+                                "librosprestados = '' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
