@@ -84,6 +84,21 @@ public class AdminMetodos {
             e.printStackTrace();
         }
     }
+    public void cargarListView(ListView listView, String columna, String tabla, String user){
+        try {
+            String consulta = "SELECT " + columna + " FROM " + tabla + " WHERE usuario_id = '"+user+"'";
+            ResultSet rs = DbConexion.ConsultaSQL(consulta);
+
+            ObservableList<String> items = FXCollections.observableArrayList();
+            while (rs.next()) {
+                items.add(rs.getString(columna));
+            }
+
+            listView.setItems(items);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public ResultSet perfilUser(){
         File file = new File("id.txt");

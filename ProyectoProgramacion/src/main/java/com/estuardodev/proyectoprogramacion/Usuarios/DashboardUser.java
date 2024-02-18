@@ -92,12 +92,13 @@ public class    DashboardUser implements StageAwareController, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         verificarMultas();
-        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal);
+        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
 
         pU.EstablecerPerfil(idLabel,PerfilNombre, PerfilDpi, PerfilEmail,PerfilTelefono, PerfilAddress,
                 PerfilPrestamos, PerfilMultas, PerfilMultasTotal, PerfilCode, PerfilPrestamosDate);
 
-        adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones");
+        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
+        adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
         adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
 
         CargarDevolverBox(DevolverCombo, DevolverLabel);
@@ -217,7 +218,7 @@ public class    DashboardUser implements StageAwareController, Initializable {
     // Historial
     @FXML
     protected void HistorialActualizar(){
-        adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones");
+        adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
     }
 
     @FXML
@@ -303,7 +304,8 @@ public class    DashboardUser implements StageAwareController, Initializable {
                             String librosConcatenados = String.join(", ", libros);
                             String query3 = "UPDATE usuario SET cantidad_prestamo = '"+(prestamos+1)+"'," +
                                     "librosprestados = '"+librosConcatenados+"'," +
-                                    "vencimiento_prestamo='"+fecha+"' WHERE id='"+idUser+"'";
+                                    "vencimiento_prestamo='"+fecha+"," +
+                                    "ultimopago = '"+fecha+"'' WHERE id='"+idUser+"'";
                             DbConexion.ejecutarUpdate(query3);
                             cantidad -= 1;
                             String query4 = "UPDATE libro SET cantidad_stock = '"+cantidad+"' WHERE id = '"+idLibro+"'";
@@ -494,15 +496,14 @@ public class    DashboardUser implements StageAwareController, Initializable {
                  if (perfil.next()){
                         String update = "UPDATE usuario SET " +
                                 "total_deudas_pendientes = '0'," +
-                                "multas_pendientes = 0," +
-                                "cantidad_prestamo = 0, " +
-                                "vencimiento_prestamo = NULL," +
+                                "multas_pendientes = 0,"  +
+                                "ultimopago = NULL," +
                                 "librosprestados = '' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
-                        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal);
+                     MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
                  }else{
                      System.out.println("No hay perfil");
                  }
@@ -519,14 +520,13 @@ public class    DashboardUser implements StageAwareController, Initializable {
                         String update = "UPDATE usuario SET " +
                                 "total_deudas_pendientes = '0'," +
                                 "multas_pendientes = 0," +
-                                "cantidad_prestamo = 0, " +
-                                "vencimiento_prestamo = NULL," +
+                                "ultimopago = NULL," +
                                 "librosprestados = '' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
-                        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal);
+                        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
 
                     }
                     else{
@@ -537,9 +537,9 @@ public class    DashboardUser implements StageAwareController, Initializable {
                                 "multas_pendientes = '1'," +
                                 "total_deudas_pendientes = '"+parcial+"'," +
                                 "cantidad_prestamo = 1, " +
-                                "vencimiento_prestamo = '"+hoy+"' WHERE id = '"+perfil.getString("id")+"'";
+                                "ultimopago = '"+hoy+"' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
-                        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal);
+                        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado parcialmente");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
@@ -556,7 +556,7 @@ public class    DashboardUser implements StageAwareController, Initializable {
         }
     }
 
-    private void MultasCargar(Label lb, Label total, TextField pendientes, TextField deuda){
+    private void MultasCargar(Label lb, Label total, TextField pendientes, TextField deuda, TextField PerfilLabelMultas, TextField PerfilLabelDeudas){
         ResultSet perfil = adminMetodos.perfilUser();
         try {
             if(perfil.next()){
@@ -572,10 +572,15 @@ public class    DashboardUser implements StageAwareController, Initializable {
                     PagarMonto.setDisable(true);
                     PagarPendientes.setText("No hay multas");
                     PagarTotal.setText("No hay deuda");
+                    PerfilLabelMultas.setText("No hay multas");
+                    PerfilLabelDeudas.setText("No hay deuda");
+
                 }else{
                     pendientes.setText(multas);
                     deuda.setText(perfil.getString("total_deudas_pendientes"));
                     total.setText(perfil.getString("total_deudas_pendientes"));
+                    PerfilLabelMultas.setText(perfil.getString("multas_pendientes"));
+                    PerfilLabelDeudas.setText(perfil.getString("total_deudas_pendientes"));
                     PagarParcial.setDisable(false);
                     PagarCompleto.setDisable(false);
                     PagarPagar.setDisable(true);
@@ -591,7 +596,7 @@ public class    DashboardUser implements StageAwareController, Initializable {
         try {
             ResultSet usuario = adminMetodos.perfilUser();
             if (usuario.next()) {
-                String date = usuario.getString("vencimiento_prestamo");
+                String date = usuario.getString("ultimopago");
                 if (date != null) {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                     try {
@@ -608,7 +613,7 @@ public class    DashboardUser implements StageAwareController, Initializable {
                             String query = "UPDATE usuario SET total_deudas_pendientes = '" + total + "', " +
                                     "multas_pendientes = '1' WHERE id = '" + usuario.getString("id") + "'";
                             DbConexion.ejecutarUpdate(query);
-                        } else if (total > 0) {
+                        } else if (total > 0 && diasPasados == 1) {
                                 total += 2;
                                 String query = "UPDATE usuario SET total_deudas_pendientes = '" + total + "', " +
                                         "multas_pendientes = '1' WHERE id = '" + usuario.getString("id") + "'";
