@@ -608,10 +608,11 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Label fx:id="idCargar" layoutX="529.0" layoutY="34.0" text="Terminando de cargar..." textFill="#35f210">
+      <Label fx:id="idCargar" layoutX="536.0" layoutY="64.0" text="Terminando de cargar..." textFill="#35f210">
          <font>
             <Font name="Arial Bold" size="22.0" />
          </font>
       </Label>
+      <Button layoutX="689.0" layoutY="18.0" mnemonicParsing="false" onAction="#ActualizarEstados" text="Actualizar todo" />
    </children>
 </Pane>

@@ -116,27 +116,7 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         perfilCargar();
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-            am.comboBoxConsultar("titulo", "libro", bxConsultarLibro);
-            am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
-            am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
-            am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
-            am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
-            am.comboBoxConsultar("nombre", "editorial", cbEditorialActualizar);
-            am.comboBoxConsultar("nombre", "editorial", cbEliminarEditorial);
-            am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
-            am.comboBoxConsultar("codigo", "codigotelefono", cbEliminarCodigo);
-        });
-
-        future.thenRun(() -> {
-            am.cargarListView(listAutores, "nombre", "autor");
-            am.cargarListView(listEditorial, "nombre", "editorial");
-            am.cargarListView(historialView, "accion", "historial_acciones");
-            am.cargarListView(CodigoList, "codigo", "codigotelefono");
-            am.comboBoxConsultar("nombre", "autor", cbAutorActualizar);
-            am.comboBoxConsultar("nombre", "autor", cbEliminarAutor);
-            idCargar.setVisible(false);
-        });
+        ActualizarTodo();
     }
 
 
@@ -319,6 +299,7 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
         am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
         am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
         am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
+        am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
     }
     @FXML
     protected void btnSeleccionarBorrarLibro(){
@@ -715,5 +696,35 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
         }else{
             EliminarCodigo.setDisable(true);
         }
+    }
+
+    @FXML
+    protected void ActualizarEstados(){
+        ActualizarTodo();
+    }
+
+    private void ActualizarTodo(){
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            idCargar.setVisible(true);
+            am.comboBoxConsultar("titulo", "libro", bxConsultarLibro);
+            am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
+            am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
+            am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
+            am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
+            am.comboBoxConsultar("nombre", "editorial", cbEditorialActualizar);
+            am.comboBoxConsultar("nombre", "editorial", cbEliminarEditorial);
+            am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
+            am.comboBoxConsultar("codigo", "codigotelefono", cbEliminarCodigo);
+        });
+
+        future.thenRun(() -> {
+            am.cargarListView(listAutores, "nombre", "autor");
+            am.cargarListView(listEditorial, "nombre", "editorial");
+            am.cargarListView(historialView, "accion", "historial_acciones");
+            am.cargarListView(CodigoList, "codigo", "codigotelefono");
+            am.comboBoxConsultar("nombre", "autor", cbAutorActualizar);
+            am.comboBoxConsultar("nombre", "autor", cbEliminarAutor);
+            idCargar.setVisible(false);
+        });
     }
 }

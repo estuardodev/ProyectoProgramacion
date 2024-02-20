@@ -96,18 +96,7 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
         pU.EstablecerPerfil(idLabel,PerfilNombre, PerfilDpi, PerfilEmail,PerfilTelefono, PerfilAddress,
                 PerfilPrestamos, PerfilMultas, PerfilMultasTotal, PerfilCode, PerfilPrestamosDate);
 
-        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-
-        verificarMultas();
-        CargarDevolverBox(DevolverCombo, DevolverLabel);
-
-        });
-        future.thenRun(() -> {
-            MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
-            adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
-            adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
-            idCargar.setVisible(false);
-        });
+        ActualizarTodo();
     }
     @Override
     public void setStage(Stage stage) {
@@ -305,8 +294,8 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
                             String librosConcatenados = String.join(", ", libros);
                             String query3 = "UPDATE usuario SET cantidad_prestamo = '"+(prestamos+1)+"'," +
                                     "librosprestados = '"+librosConcatenados+"'," +
-                                    "vencimiento_prestamo='"+fecha+"," +
-                                    "ultimopago = '"+fecha+"'' WHERE id='"+idUser+"'";
+                                    "vencimiento_prestamo='"+fecha+"'," +
+                                    "ultimopago = '"+fecha+"' WHERE id='"+idUser+"'";
                             DbConexion.ejecutarUpdate(query3);
                             cantidad -= 1;
                             String query4 = "UPDATE libro SET cantidad_stock = '"+cantidad+"' WHERE id = '"+idLibro+"'";
@@ -638,5 +627,23 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
         }
     }
 
+    @FXML
+    protected void ActualizarEstados(){
+        ActualizarTodo();
+    }
+
+    private void ActualizarTodo(){
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                idCargar.setVisible(true);
+            verificarMultas();
+            CargarDevolverBox(DevolverCombo, DevolverLabel);
+        });
+        future.thenRun(() -> {
+            MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
+            adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
+            adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
+            idCargar.setVisible(false);
+        });
+    }
 
 }
