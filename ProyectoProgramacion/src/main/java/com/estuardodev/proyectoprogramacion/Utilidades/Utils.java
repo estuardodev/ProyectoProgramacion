@@ -107,6 +107,24 @@ public class Utils {
         }
     }
 
+    public static void setStringJson(String archivo, String key, String value) {
+        JsonParser jsonParser = new JsonParser();
+        try {
+            FileReader fr = new FileReader(archivo);
+            JsonObject jsonObject = jsonParser.parse(fr).getAsJsonObject();
+            fr.close();
+
+            jsonObject.addProperty(key, value);
+
+            FileWriter fw = new FileWriter(archivo);
+            fw.write(jsonObject.toString());
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     public void ExportarHistorial(ListView<String> list){
         ObservableList<String> items = list.getItems();
         int contador = 1;
@@ -137,5 +155,68 @@ public class Utils {
             adminMetodos.mostrarMensaje("Exportación cancelada por el usuario.");
         }
 
+    }
+
+    public static void CreateTables(){
+        String sql = "-- Create tables if they don't exist\n" +
+                "CREATE TABLE IF NOT EXISTS autor (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    nombre varchar(75)\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE IF NOT EXISTS codigotelefono (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    codigo integer\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE IF NOT EXISTS editorial (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    nombre varchar(75)\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE IF NOT EXISTS usuario (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    identificador varchar(13),\n" +
+                "    nombre varchar(75),\n" +
+                "    telefono varchar(20),\n" +
+                "    cantidad_prestamo integer,\n" +
+                "    vencimiento_prestamo date,\n" +
+                "    direccion varchar(50),\n" +
+                "    multas_pendientes integer,\n" +
+                "    total_deudas_pendientes numeric,\n" +
+                "    codigo_telefono integer,\n" +
+                "    username varchar(20),\n" +
+                "    password varchar(100),\n" +
+                "    es_admin boolean,\n" +
+                "    activo boolean,\n" +
+                "    email varchar(100) NOT NULL,\n" +
+                "    resend varchar(4),\n" +
+                "    recopilar boolean DEFAULT true,\n" +
+                "    librosprestados varchar(5),\n" +
+                "    ultimopago date,\n" +
+                "    CONSTRAINT fk_codigotelefono FOREIGN KEY (codigo_telefono) REFERENCES codigotelefono(id)\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE IF NOT EXISTS historial_acciones (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    usuario_id integer,\n" +
+                "    accion varchar(255),\n" +
+                "    fecha timestamp without time zone DEFAULT CURRENT_TIMESTAMP,\n" +
+                "    CONSTRAINT fk_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id)\n" +
+                ");\n" +
+                "\n" +
+                "CREATE TABLE IF NOT EXISTS libro (\n" +
+                "    id serial PRIMARY KEY,\n" +
+                "    titulo varchar(75),\n" +
+                "    fecha_publicacion date,\n" +
+                "    isbn varchar(75),\n" +
+                "    cantidad_stock integer,\n" +
+                "    fkidautor integer,\n" +
+                "    fkideditorial integer,\n" +
+                "    CONSTRAINT fk_autor FOREIGN KEY (fkidautor) REFERENCES public.autor(id),\n" +
+                "    CONSTRAINT fk_editorial FOREIGN KEY (fkideditorial) REFERENCES editorial(id)\n" +
+                ");";
+
+        DbConexion.ejecutarInsercion(sql);
     }
 }

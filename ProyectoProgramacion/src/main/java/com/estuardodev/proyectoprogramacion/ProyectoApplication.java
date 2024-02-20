@@ -1,5 +1,6 @@
 package com.estuardodev.proyectoprogramacion;
 
+import com.estuardodev.proyectoprogramacion.Utilidades.Utils;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,7 @@ public class ProyectoApplication extends Application {
                     File file = new File("init.txt");
                     try {
                         if (!file.exists()) {
-                            mostrarVista(stage, "FirstLogin.fxml");
+                            mostrarVista(stage, "DatabaseConnect.fxml");
                         } else {
                             mostrarVista(stage, "Login-view.fxml");
                         }
