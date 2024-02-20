@@ -35,7 +35,7 @@ public class DatabaseConnect implements StageAwareController, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        File file = new File("secrets.json");
+        File file = new File("Biblioteca/secrets.json");
         try {
             file.createNewFile();
             FileWriter fw = new FileWriter(file);
@@ -78,12 +78,12 @@ public class DatabaseConnect implements StageAwareController, Initializable {
             lbMensaje.setText("Llene los datos correctamente.");
             lbMensaje.setTextFill(Color.RED);
         }else{
-            Utils.setStringJson("secrets.json", "database", database);
-            Utils.setStringJson("secrets.json", "user", user);
-            Utils.setStringJson("secrets.json", "password", pass);
-            Utils.setStringJson("secrets.json", "host", host);
-            Utils.setStringJson("secrets.json", "port", port);
-            Utils.setStringJson("secrets.json", "resend", resend);
+            Utils.setStringJson("Biblioteca/secrets.json", "database", database);
+            Utils.setStringJson("Biblioteca/secrets.json", "user", user);
+            Utils.setStringJson("Biblioteca/secrets.json", "password", pass);
+            Utils.setStringJson("Biblioteca/secrets.json", "host", host);
+            Utils.setStringJson("Biblioteca/secrets.json", "port", port);
+            Utils.setStringJson("Biblioteca/secrets.json", "resend", resend);
             try {
                 DbConexion.Conexion();
                 btnGuardar.setDisable(true);

@@ -28,9 +28,11 @@ public class ProyectoApplication extends Application {
             public void run() {
                 // Carga el archivo FXML del Login-view.fxml después de 3 segundos
                 Platform.runLater(() -> {
+                    File fileDir = new File("Biblioteca");
                     File file = new File("Biblioteca/init.txt");
                     try {
-                        if (!file.exists()) {
+                        if (!fileDir.exists() || !file.exists()) {
+                            fileDir.mkdirs();
                             mostrarVista(stage, "DatabaseConnect.fxml");
                         } else {
                             mostrarVista(stage, "Login-view.fxml");

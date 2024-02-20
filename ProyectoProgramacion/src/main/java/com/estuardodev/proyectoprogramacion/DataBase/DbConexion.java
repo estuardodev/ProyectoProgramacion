@@ -6,12 +6,12 @@ import java.sql.*;
 
 public class DbConexion {
 
-    static String url = Utils.getStringJson("secrets.json", "url");;
-    static String db = Utils.getStringJson("secrets.json", "database");;
-    static String user = Utils.getStringJson("secrets.json", "user");;
-    static String password = Utils.getStringJson("secrets.json", "password");;
-    static String host = Utils.getStringJson("secrets.json", "host");;
-    static String port = Utils.getStringJson("secrets.json", "port");;
+    static String url = Utils.getStringJson("Biblioteca/secrets.json", "url");;
+    static String db = Utils.getStringJson("Biblioteca/secrets.json", "database");;
+    static String user = Utils.getStringJson("Biblioteca/secrets.json", "user");;
+    static String password = Utils.getStringJson("Biblioteca/secrets.json", "password");;
+    static String host = Utils.getStringJson("Biblioteca/secrets.json", "host");;
+    static String port = Utils.getStringJson("Biblioteca/secrets.json", "port");;
     static String URLPostgres = url + host + ":" + port + "/" + db;
 
     public static Connection Conexion() {

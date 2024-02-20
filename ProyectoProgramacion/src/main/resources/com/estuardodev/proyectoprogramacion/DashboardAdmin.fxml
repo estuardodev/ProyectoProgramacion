@@ -586,6 +586,7 @@
                               </Label>
                            </children>
                         </Pane>
+                        <Button layoutX="82.0" layoutY="23.0" mnemonicParsing="false" onAction="#btnCerrarSesion" text="Cerrar Sesión" />
                      </children></Pane>
               </content>    
             </Tab>
@@ -607,5 +608,10 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Label fx:id="idCargar" layoutX="529.0" layoutY="34.0" text="Terminando de cargar..." textFill="#35f210">
+         <font>
+            <Font name="Arial Bold" size="22.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

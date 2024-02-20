@@ -64,8 +64,19 @@ public class FirstLogin extends Usuario implements StageAwareController {
             Informacion.setText("Rellena todos los campos correctamente :|");
             Informacion.setTextFill(Color.RED);
         }else{
-            String query = "INSERT INTO codigotelefono (codigo) VALUES ('"+code+"')";
-            DbConexion.ejecutarInsercion(query);
+            try {
+                String query = "SELECT id FROM codigotelefono WHERE codigo = '"+code+"'";
+                ResultSet rs = DbConexion.ConsultaSQL(query);
+                if (rs.next()){
+                    id_code = rs.getString("id");
+                }else{
+                    query = "INSERT INTO codigotelefono (codigo) VALUES ('"+code+"')";
+                    DbConexion.ejecutarInsercion(query);
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+
 
             String query_get = "SELECT id FROM codigotelefono WHERE codigo = '"+code+"'";
             ResultSet rs = DbConexion.ConsultaSQL(query_get);

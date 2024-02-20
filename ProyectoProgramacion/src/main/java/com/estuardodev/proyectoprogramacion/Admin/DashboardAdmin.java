@@ -1,6 +1,7 @@
 package com.estuardodev.proyectoprogramacion.Admin;
 
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
+import com.estuardodev.proyectoprogramacion.ProyectoApplication;
 import com.estuardodev.proyectoprogramacion.StageAwareController;
 import com.estuardodev.proyectoprogramacion.Usuario;
 import com.estuardodev.proyectoprogramacion.Utilidades.Encrypt;
@@ -26,6 +27,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 public class DashboardAdmin extends Usuario implements StageAwareController, Initializable {
 
@@ -105,7 +107,7 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
     @FXML
     Button EliminarCodigo;
     @FXML
-    Label msgGuardadoCodigo, msgUpdateCodigo, msgEliminadoCodigo;
+    Label msgGuardadoCodigo, msgUpdateCodigo, msgEliminadoCodigo, idCargar;
 
     @Override
     public void setStage(Stage stage) {
@@ -113,25 +115,30 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        am.comboBoxConsultar("titulo", "libro", bxConsultarLibro);
-        am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
-        am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
-        am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
-        am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
-        am.comboBoxConsultar("nombre", "autor", cbAutorActualizar);
-        am.comboBoxConsultar("nombre", "autor", cbEliminarAutor);
-        am.comboBoxConsultar("nombre", "editorial", cbEditorialActualizar);
-        am.comboBoxConsultar("nombre", "editorial", cbEliminarEditorial);
-        am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
-        am.comboBoxConsultar("codigo", "codigotelefono", cbEliminarCodigo);
-
-        am.cargarListView(listAutores, "nombre", "autor");
-        am.cargarListView(listEditorial, "nombre", "editorial");
-        am.cargarListView(historialView, "accion", "historial_acciones");
-        am.cargarListView(CodigoList, "codigo", "codigotelefono");
-
         perfilCargar();
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+            am.comboBoxConsultar("titulo", "libro", bxConsultarLibro);
+            am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
+            am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
+            am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
+            am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
+            am.comboBoxConsultar("nombre", "editorial", cbEditorialActualizar);
+            am.comboBoxConsultar("nombre", "editorial", cbEliminarEditorial);
+            am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
+            am.comboBoxConsultar("codigo", "codigotelefono", cbEliminarCodigo);
+        });
+
+        future.thenRun(() -> {
+            am.cargarListView(listAutores, "nombre", "autor");
+            am.cargarListView(listEditorial, "nombre", "editorial");
+            am.cargarListView(historialView, "accion", "historial_acciones");
+            am.cargarListView(CodigoList, "codigo", "codigotelefono");
+            am.comboBoxConsultar("nombre", "autor", cbAutorActualizar);
+            am.comboBoxConsultar("nombre", "autor", cbEliminarAutor);
+            idCargar.setVisible(false);
+        });
     }
+
 
     // Libros
     @FXML
@@ -640,6 +647,20 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
                 PerfilDireccion.setText(rs.getString("direccion"));
             }
         }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void btnCerrarSesion(){
+        File file = new File("Biblioteca/id.txt");
+        try {
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write("");
+            ProyectoApplication pa = new ProyectoApplication();
+            pa.mostrarVista(stage, "Login-view.fxml");
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

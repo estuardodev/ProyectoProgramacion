@@ -103,6 +103,11 @@
                               <Font name="Arial Bold" size="15.0" />
                            </font>
                         </Label>
+                        <Label fx:id="idCargar" layoutX="466.0" layoutY="85.0" text="Terminando de cargar..." textFill="#b50101">
+                           <font>
+                              <Font name="Arial Bold" size="20.0" />
+                           </font>
+                        </Label>
                      </children></Pane>
                 </content>
             </Tab>
@@ -253,7 +258,7 @@
                               <Font name="Arial Bold" size="13.0" />
                            </font>
                         </Label>
-                        <Label fx:id="PagarCantidad" layoutX="479.0" layoutY="239.0" prefHeight="17.0" prefWidth="83.0" text="Label" />
+                        <Label fx:id="PagarCantidad" layoutX="479.0" layoutY="239.0" prefHeight="17.0" prefWidth="83.0" text="0" />
                         <Button fx:id="PagarPagar" layoutX="471.0" layoutY="349.0" mnemonicParsing="false" onAction="#PagarPagar" style="-fx-background-color: #273a2d; -fx-text-fill: #FFF; -fx-font-size: 14px; -fx-font-family: Arial; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-cursor: hand;" text="Pagar" />
                         <TextField fx:id="PagarMonto" layoutX="438.0" layoutY="304.0" promptText="Ingrese el monto a pagar" />
                         <Label fx:id="PagarPagado" alignment="CENTER" layoutX="267.0" layoutY="427.0" prefHeight="20.0" prefWidth="222.0" text="Pagado" textFill="#00a41b">

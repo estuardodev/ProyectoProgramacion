@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class DashboardUser extends Usuario implements StageAwareController, Initializable {
@@ -88,21 +89,25 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
     @FXML
     private Button PagarPagar;
     @FXML
-    private Label PagarCantidad, PagarPagado;
+    private Label PagarCantidad, PagarPagado, idCargar;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        verificarMultas();
-        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
-
         pU.EstablecerPerfil(idLabel,PerfilNombre, PerfilDpi, PerfilEmail,PerfilTelefono, PerfilAddress,
                 PerfilPrestamos, PerfilMultas, PerfilMultasTotal, PerfilCode, PerfilPrestamosDate);
 
-        MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
-        adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
-        adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
 
+        verificarMultas();
         CargarDevolverBox(DevolverCombo, DevolverLabel);
+
+        });
+        future.thenRun(() -> {
+            MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
+            adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
+            adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
+            idCargar.setVisible(false);
+        });
     }
     @Override
     public void setStage(Stage stage) {
