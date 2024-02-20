@@ -81,7 +81,7 @@ public class FirstLogin extends Usuario implements StageAwareController {
                         int info = CrearUser();
                         switch (info){
                             case 0:
-                                File file = new File("init.txt");
+                                File file = new File("Biblioteca/init.txt");
                                 file.createNewFile();
                                 FileWriter fw = new FileWriter(file);
                                 BufferedWriter bw = new BufferedWriter(fw);

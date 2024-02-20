@@ -112,7 +112,7 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
     // Perfil
     @FXML
     protected void btnCerrarSesion(){
-        File file = new File("id.txt");
+        File file = new File("Biblioteca/id.txt");
         try {
             FileWriter fw = new FileWriter(file);
             BufferedWriter bw = new BufferedWriter(fw);

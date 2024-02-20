@@ -101,7 +101,7 @@ public class AdminMetodos {
     }
 
     public ResultSet perfilUser(){
-        File file = new File("id.txt");
+        File file = new File("Biblioteca/id.txt");
         ResultSet rs = null;
         try {
             FileReader fr = new FileReader(file);

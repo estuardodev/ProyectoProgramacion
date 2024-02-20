@@ -54,7 +54,7 @@ public class LoginController implements StageAwareController{
 
                     if (esAdmin){
                         System.out.println("AUTHENTICADO ADMIN");
-                        File file = new File("id.txt");
+                        File file = new File("Biblioteca/id.txt");
                         if (!file.exists()){
                             file.createNewFile();
                         }

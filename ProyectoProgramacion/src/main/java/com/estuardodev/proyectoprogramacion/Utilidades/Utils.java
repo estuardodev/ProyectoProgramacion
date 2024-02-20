@@ -40,7 +40,7 @@ public class Utils {
 
         String apiKey = "";
         try {
-            apiKey = Utils.getStringJson("secrets.json", "resend");
+            apiKey = Utils.getStringJson("Biblioteca/secrets.json", "resend");
         }catch (Exception e){
             e.printStackTrace();
         }
