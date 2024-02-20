@@ -4,6 +4,7 @@ import com.estuardodev.proyectoprogramacion.Admin.AdminMetodos;
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 import com.estuardodev.proyectoprogramacion.ProyectoApplication;
 import com.estuardodev.proyectoprogramacion.StageAwareController;
+import com.estuardodev.proyectoprogramacion.Usuario;
 import com.estuardodev.proyectoprogramacion.Utilidades.Encrypt;
 import com.estuardodev.proyectoprogramacion.Utilidades.Utils;
 import com.google.gson.JsonArray;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
-public class    DashboardUser implements StageAwareController, Initializable {
+public class DashboardUser extends Usuario implements StageAwareController, Initializable {
 
     private Stage stage;
     // Instancia de Clases
@@ -154,29 +155,24 @@ public class    DashboardUser implements StageAwareController, Initializable {
         String code = PerfilCode.getValue();
         String number = PerfilTelefono.getText();
         String address = PerfilAddress.getText();
-        System.out.println(code);
-
         if(code==null){
             code = PerfilCode.getPromptText();
         }
 
-        String query_code = "SELECT id FROM codigotelefono WHERE codigo = " + code;
-        ResultSet rs = DbConexion.ConsultaSQL(query_code);
-        try {
-            if (rs.next()){
-                String codigo = rs.getString("id");
-                String query_update = "UPDATE usuario SET identificador = '" + dpi +
-                        "', nombre = '" + name + "', telefono = '" + number + "', direccion = '" + address +
-                        "', codigo_telefono = '" + codigo + "', email = '" + correo + "' WHERE id = '" + id + "'";
-                System.out.println("Llego aca");
-                DbConexion.ejecutarUpdate(query_update);
+        setDatos(id, name, dpi, code, number, "", correo, "", address, false);
+        int info = ActualizarUsuario();
+        switch (info){
+            case 1:
                 Exitosamente.setVisible(true);
                 PerfilEditar();
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
+                break;
+            case 9:
+                Exitosamente.setVisible(true);
+                Exitosamente.setTextFill(Color.RED);
+                Exitosamente.setText("Ocurrió un error.");
+                PerfilEditar();
+                break;
         }
-
 
     }
     @FXML

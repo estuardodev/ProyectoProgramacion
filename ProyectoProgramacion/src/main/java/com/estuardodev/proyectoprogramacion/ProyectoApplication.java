@@ -6,7 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -15,8 +16,9 @@ public class ProyectoApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ProyectoApplication.class.getResource("Splash-view.fxml"));
+        stage.setResizable(false);
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-        stage.setTitle("Hello!");
+        stage.setTitle("Sistema bibliotecario");
         stage.setScene(scene);
         stage.show();
 
@@ -25,15 +27,14 @@ public class ProyectoApplication extends Application {
             public void run() {
                 // Carga el archivo FXML del Login-view.fxml después de 3 segundos
                 Platform.runLater(() -> {
+                    File file = new File("init.txt");
                     try {
-                        FXMLLoader loginLoader = new FXMLLoader(ProyectoApplication.class.getResource("Login-view.fxml"));
-                        Scene loginScene = new Scene(loginLoader.load(), 800, 600);
-                        stage.setScene(loginScene);
-
-                        // Obtén una referencia al controlador LoginController y establece el Stage
-                        LoginController loginController = loginLoader.getController();
-                        loginController.setStage(stage);
-                    } catch (IOException e) {
+                        if (!file.exists()) {
+                            mostrarVista(stage, "FirstLogin.fxml");
+                        } else {
+                            mostrarVista(stage, "Login-view.fxml");
+                        }
+                    }catch (Exception e) {
                         e.printStackTrace();
                     }
                 });

@@ -5,6 +5,7 @@
 id.txt
 secret-key.txt
 secrets.json
+init.txt
 
 ### Java ###
 # Compiled class file

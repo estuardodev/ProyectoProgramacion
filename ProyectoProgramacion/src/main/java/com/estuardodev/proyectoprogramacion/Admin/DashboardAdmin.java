@@ -2,6 +2,8 @@ package com.estuardodev.proyectoprogramacion.Admin;
 
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 import com.estuardodev.proyectoprogramacion.StageAwareController;
+import com.estuardodev.proyectoprogramacion.Usuario;
+import com.estuardodev.proyectoprogramacion.Utilidades.Encrypt;
 import com.estuardodev.proyectoprogramacion.Utilidades.Utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -25,11 +27,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class DashboardAdmin implements StageAwareController, Initializable {
+public class DashboardAdmin extends Usuario implements StageAwareController, Initializable {
 
     private Stage stage;
     private AdminMetodos am = new AdminMetodos();
     Utils utils = new Utils();
+    String email_global;
 
     // Libros
     @FXML
@@ -74,15 +77,35 @@ public class DashboardAdmin implements StageAwareController, Initializable {
 
     // Perfil
     @FXML
-    private TextField PerfilName, PerfilDpi, PerfilCode, PerfilTelefono, PerfilUsername, PerfilCorreo;
+    private TextField PerfilName, PerfilDpi, PerfilTelefono, PerfilUsername,
+            PerfilCorreo, PerfilDireccion, CambiarPass, CambiarCodigo, CambiarNewPass, CambiarNewPass1;
     @FXML
     private CheckBox PerfilRecoleccion;
     @FXML
-    private Button PerfilActDes;
+    private Button PerfilActDes, PerfilGuardar, PerfilEditar, CambiarObtener, CambiarVerificar,
+            CambiarCambiar;
+    @FXML
+    ComboBox<String> PerfilCode;
+    @FXML
+    Label PerfilMensaje, idId, CambiarPassword;
 
     // Historial
     @FXML
     private ListView<String> historialView;
+
+    // Codigos
+    @FXML
+    ListView<String> CodigoList;
+    @FXML
+    TextField CodigoCode, CodigoActualizarCode;
+    @FXML
+    ComboBox<String> CBCodigo, cbEliminarCodigo;
+    @FXML
+    CheckBox checkEliminarCode;
+    @FXML
+    Button EliminarCodigo;
+    @FXML
+    Label msgGuardadoCodigo, msgUpdateCodigo, msgEliminadoCodigo;
 
     @Override
     public void setStage(Stage stage) {
@@ -99,10 +122,13 @@ public class DashboardAdmin implements StageAwareController, Initializable {
         am.comboBoxConsultar("nombre", "autor", cbEliminarAutor);
         am.comboBoxConsultar("nombre", "editorial", cbEditorialActualizar);
         am.comboBoxConsultar("nombre", "editorial", cbEliminarEditorial);
+        am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
+        am.comboBoxConsultar("codigo", "codigotelefono", cbEliminarCodigo);
 
         am.cargarListView(listAutores, "nombre", "autor");
         am.cargarListView(listEditorial, "nombre", "editorial");
         am.cargarListView(historialView, "accion", "historial_acciones");
+        am.cargarListView(CodigoList, "codigo", "codigotelefono");
 
         perfilCargar();
     }
@@ -449,18 +475,169 @@ public class DashboardAdmin implements StageAwareController, Initializable {
         }
     }
 
+    @FXML
+    protected void PerfilGuardar(){
+        String id = idId.getText();
+        String name = PerfilName.getText();
+        String dpi = PerfilDpi.getText();
+        String correo = PerfilCorreo.getText();
+        String code = PerfilCode.getValue();
+        String username = PerfilUsername.getText();
+        String number = PerfilTelefono.getText();
+        String address = PerfilDireccion.getText();
+        if(code==null){
+            code = PerfilCode.getPromptText();
+        }
+
+        setDatos(id, name, dpi, code, number, username, correo, "", address, true);
+        int info = ActualizarUsuario();
+        switch (info){
+            case 1:
+                PerfilMensaje.setVisible(true);
+                PerfilMensaje.setTextFill(Color.YELLOWGREEN);
+                PerfilMensaje.setText("Cambios Guardados.");
+                PerfilEditar();
+                break;
+            case 9:
+                PerfilMensaje.setVisible(true);
+                PerfilMensaje.setTextFill(Color.RED);
+                PerfilMensaje.setText("Ocurrió un error.");
+                PerfilEditar();
+                break;
+        }
+    }
+    @FXML
+    protected void PerfilEditar(){
+        if (PerfilGuardar.isDisable()){
+            PerfilName.setEditable(true);
+            PerfilDpi.setEditable(true);
+            PerfilCorreo.setEditable(true);
+            PerfilCode.setDisable(false);
+            PerfilTelefono.setEditable(true);
+            PerfilDireccion.setEditable(true);
+            PerfilGuardar.setDisable(false);
+            PerfilEditar.setText("Cancelar");
+        }else{
+            PerfilName.setEditable(false);
+            PerfilDpi.setEditable(false);
+            PerfilCorreo.setEditable(false);
+            PerfilTelefono.setEditable(false);
+            PerfilCode.setDisable(true);
+            PerfilDireccion.setEditable(false);
+            PerfilGuardar.setDisable(true);
+            PerfilEditar.setText("Editar");
+        }
+    }
+
+
+    @FXML
+    protected void CambiarObtener(){
+        String email = PerfilCorreo.getText();
+        email_global = email;
+        try {
+            ResultSet rs = DbConexion.ConsultaSQL("SELECT password, resend FROM usuario WHERE email = '"+email+"'");
+            if (rs.next()){
+                String code = Utils.GenerarCode();
+                DbConexion.ejecutarUpdate("UPDATE usuario SET resend = '"+code+"' WHERE email = '"+email+"'" );
+                CambiarPassword.setVisible(true);
+                CambiarPassword.setText("Código enviado");
+                CambiarPassword.setTextFill(Color.GREEN);
+                Utils.SendCode(code, email);
+                CambiarCodigo.setDisable(false);
+                CambiarCodigo.clear();
+                CambiarVerificar.setDisable(false);
+            }else{
+                CambiarPassword.setVisible(true);
+                CambiarPassword.setText("Error");
+                CambiarPassword.setTextFill(Color.RED);
+                CambiarCodigo.setDisable(true);
+                CambiarVerificar.setDisable(true);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    protected void CambiarVerificar(){
+        String codeget = CambiarCodigo.getText();
+        try {
+            ResultSet rs = DbConexion.ConsultaSQL("SELECT resend FROM usuario WHERE email='"+email_global+"'");
+            if (rs.next()){
+                if (rs.getString("resend").equals(codeget)){
+                    DbConexion.ejecutarUpdate("UPDATE usuario SET resend = '' WHERE email = '"+email_global+"'");
+                    CambiarPassword.setVisible(true);
+                    CambiarPassword.setText("Código válidado");
+                    CambiarPassword.setTextFill(Color.GREEN);
+                    CambiarNewPass.setDisable(false);
+                    CambiarNewPass1.setDisable(false);
+                    CambiarVerificar.setDisable(true);
+                    CambiarCodigo.setDisable(true);
+                    CambiarCambiar.setDisable(false);
+                }else{
+                    CambiarPassword.setVisible(true);
+                    CambiarPassword.setText("Código inválido");
+                    CambiarPassword.setTextFill(Color.GREEN);
+                    CambiarNewPass.setDisable(true);
+                    CambiarNewPass1.setDisable(true);
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    protected void CambiarCambiar(){
+        String newPass1 = CambiarNewPass.getText();
+        String newPass2 = CambiarNewPass1.getText();
+        String user = idId.getText();
+        String query_pass = "SELECT password FROM usuario WHERE id  = '" + user +"'";
+        ResultSet rs = DbConexion.ConsultaSQL(query_pass);
+        try {
+            if (rs.next()){
+                if(newPass1.equals(newPass2) &&
+                        !newPass1.isBlank()){
+                    String passNew = Encrypt.getSHA256(newPass1);
+                    String newPassword_query = "UPDATE usuario SET password = '"+passNew+"' WHERE id = '"+user+"'";
+                    DbConexion.ejecutarUpdate(newPassword_query);
+                    CambiarPassword.setText("Contraseña cambiada.");
+                    CambiarPassword.setVisible(true);
+                    CambiarNewPass.clear();
+                    CambiarNewPass1.clear();
+                    CambiarPass.clear();
+                    CambiarCodigo.clear();
+                    CambiarVerificar.setDisable(true);
+                    CambiarCodigo.setDisable(true);
+                    CambiarNewPass.setDisable(true);
+                    CambiarNewPass1.setDisable(true);
+                    CambiarCambiar.setDisable(true);
+                }else{
+                    CambiarPassword.setText("La contraseña es incorrecta.");
+                    CambiarPassword.setVisible(true);
+                    CambiarPassword.setTextFill(Color.RED);
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
     private void perfilCargar(){
         ResultSet rs = am.perfilUser();
+        AdminMetodos admin = new AdminMetodos();
         try {
             if (rs.next()){
                 String code = am.obtenerNombrePorId("codigotelefono", "codigo", "id", Integer.parseInt(rs.getString("codigo_telefono")));
+                idId.setText(rs.getString("id"));
                 txtBienvenida.setText("Hola, "+rs.getString("nombre"));
                 PerfilName.setText(rs.getString("nombre"));
                 PerfilDpi.setText(rs.getString("identificador"));
-                PerfilCode.setText(code);
+                PerfilCode.setPromptText(code);
+                admin.comboBoxConsultar("codigo", "codigotelefono", PerfilCode);
                 PerfilTelefono.setText(rs.getString("telefono"));
                 PerfilUsername.setText(rs.getString("username"));
                 PerfilCorreo.setText(rs.getString("email"));
+                PerfilDireccion.setText(rs.getString("direccion"));
             }
         }catch (SQLException e){
             e.printStackTrace();
@@ -477,4 +654,45 @@ public class DashboardAdmin implements StageAwareController, Initializable {
         utils.ExportarHistorial(historialView);
     }
 
+    // Codigos
+
+
+    @FXML
+    protected void CodigoActualizar(){
+        am.cargarListView(CodigoList, "codigo", "codigotelefono");
+    }
+    @FXML
+    protected void CodigoGuardar(){
+        am.GuardarElemento(CodigoCode, "codigotelefono", "codigo", msgGuardadoCodigo, am.perfilUser());
+    }
+    @FXML
+    protected void CodigoLimpiar(){
+        msgGuardadoCodigo.setVisible(false);
+        CodigoCode.clear();
+    }
+    @FXML
+    protected void CodigoActualizarCb(){
+        am.comboBoxConsultar("codigo", "codigotelefono", CBCodigo);
+    }
+    @FXML
+    protected void CBCodigo(){
+        CodigoActualizarCode.setText(CBCodigo.getValue());
+    }
+    @FXML
+    protected void SaveActualizarCodigo(){
+        am.ActualizarElemento("codigotelefono", "codigo", CodigoActualizarCode, CBCodigo, msgUpdateCodigo, am.perfilUser());
+        autorActualizarUpdate();
+    }
+    @FXML
+    protected void EliminarCodigo(){
+        am.EliminarCampo("codigotelefono", "codigo", checkEliminarCode, cbEliminarCodigo, "Código", msgEliminadoCodigo, am.perfilUser());
+    }
+    @FXML
+    protected void checkEliminarCode(){
+        if (checkEliminarCode.isSelected()){
+            EliminarCodigo.setDisable(false);
+        }else{
+            EliminarCodigo.setDisable(true);
+        }
+    }
 }
