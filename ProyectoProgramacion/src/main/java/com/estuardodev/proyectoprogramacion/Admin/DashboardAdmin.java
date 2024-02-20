@@ -295,11 +295,13 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
     }
     @FXML
     protected void btnCLibroActualizar(){
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
         am.comboBoxConsultar("titulo", "libro", bxConsultarLibro);
         am.comboBoxConsultar("nombre","autor", cbALibrosAutor);
         am.comboBoxConsultar("nombre", "editorial", cbALibrosEditorial);
         am.comboBoxConsultar("titulo", "libro", bxULibroActualizar);
         am.comboBoxConsultar("titulo", "libro", cbBorrarLibro);
+        });
     }
     @FXML
     protected void btnSeleccionarBorrarLibro(){
