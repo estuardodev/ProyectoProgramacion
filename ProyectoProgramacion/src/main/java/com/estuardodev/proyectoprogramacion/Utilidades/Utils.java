@@ -74,14 +74,6 @@ public class Utils {
         }
     }
 
-    public  static void Sleep(int number){
-        try {
-            Thread.sleep(number * 1000L);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
     public static int obtenerIdEditorial(String nombreEditorial) throws SQLException {
         String queryEditorial = "SELECT id FROM editorial WHERE nombre = ?";
         try (PreparedStatement psEditorial = DbConexion.Conexion().prepareStatement(queryEditorial)) {
@@ -123,7 +115,6 @@ public class Utils {
             e.printStackTrace();
         }
     }
-
 
     public void ExportarHistorial(ListView<String> list){
         ObservableList<String> items = list.getItems();
