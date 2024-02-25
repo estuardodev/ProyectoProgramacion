@@ -18,8 +18,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class CreateUserController extends Usuario implements Initializable, StageAwareController {
+public class CreateUserController implements Initializable, StageAwareController {
     private Stage stage;
+
+    Usuario usuario = new Usuario();
 
     @Override
     public void setStage(Stage stage) {
@@ -71,9 +73,9 @@ public class CreateUserController extends Usuario implements Initializable, Stag
             String pass = Encrypt.getSHA256(txtPass.getText());
             String email = txtCorreo.getText();
 
-            setDatos("", nombre, dpi, code, number, user, email, pass,
+            usuario.setDatos("", nombre, dpi, code, number, user, email, pass,
                     address, false);
-            int info = CrearUser();
+            int info = usuario.CrearUsuario();
             switch (info){
                 case 0:
                     lbMessage.setVisible(true);

@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class FirstLogin extends Usuario implements StageAwareController {
+public class FirstLogin implements StageAwareController {
     private Stage stage;
+    Usuario usuario = new Usuario();
     @FXML
     TextField nombre, dpi, correo, codigo, telefono, direccion, username, password1, password2;
     @FXML
@@ -88,8 +89,8 @@ public class FirstLogin extends Usuario implements StageAwareController {
                         Informacion.setText("Las contraseñas no coinciden :|");
                         Informacion.setTextFill(Color.YELLOWGREEN);
                     }else {
-                        setDatos("", name, document, id_code, number, user, email, pass, address, true);
-                        int info = CrearUser();
+                        usuario.setDatos("", name, document, id_code, number, user, email, pass, address, true);
+                        int info = usuario.CrearUsuario();
                         switch (info){
                             case 0:
                                 File file = new File("Biblioteca/init.txt");

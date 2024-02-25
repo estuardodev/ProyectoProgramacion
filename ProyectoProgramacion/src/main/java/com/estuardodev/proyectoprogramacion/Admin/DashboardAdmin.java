@@ -29,10 +29,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
-public class DashboardAdmin extends Usuario implements StageAwareController, Initializable {
+public class DashboardAdmin implements StageAwareController, Initializable {
 
     private Stage stage;
     private AdminMetodos am = new AdminMetodos();
+    Usuario usuario = new Usuario();
     Utils utils = new Utils();
     String email_global;
 
@@ -479,8 +480,8 @@ public class DashboardAdmin extends Usuario implements StageAwareController, Ini
             code = PerfilCode.getPromptText();
         }
 
-        setDatos(id, name, dpi, code, number, username, correo, "", address, true);
-        int info = ActualizarUsuario();
+        usuario.setDatos(id, name, dpi, code, number, username, correo, "", address, true);
+        int info = usuario.ActualizarUsuario();
         switch (info){
             case 1:
                 PerfilMensaje.setVisible(true);

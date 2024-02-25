@@ -1,37 +1,14 @@
 package com.estuardodev.proyectoprogramacion;
 
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
-import com.estuardodev.proyectoprogramacion.Utilidades.Encrypt;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Usuario {
+public class Usuario extends User {
 
-    private String id, nombre, dpi, codigo, telefono, username, correo, password, address;
-    private boolean admin;
-
-    public Usuario(){}
-    public void setDatos(String _id, String _nombre, String _dpi, String _codigo, String _telefono,
-                         String _username, String _correo, String _password, String _address,
-                         boolean is_admin) {
-        id = _id;
-        nombre = _nombre;
-        dpi = _dpi;
-        codigo = _codigo;
-        telefono = _telefono;
-        username = _username;
-        correo = _correo;
-        password = _password;
-        address = _address;
-        admin = is_admin;
-    }
-
-
-    public int CrearUser(){
+    @Override
+    public int CrearUsuario() {
         /*
          * @return Código 0 = Usuario agregado correctamente
          * @return Código 1 = Campos faltantes
@@ -89,6 +66,7 @@ public class Usuario {
         }
     }
 
+    @Override
     public int ActualizarUsuario(){
         /*
          * @return Código 0 = Usuario actualizado correctamente

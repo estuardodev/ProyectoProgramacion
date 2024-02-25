@@ -30,11 +30,12 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
-public class DashboardUser extends Usuario implements StageAwareController, Initializable {
+public class DashboardUser implements StageAwareController, Initializable {
 
     private Stage stage;
     // Instancia de Clases
     AdminMetodos adminMetodos = new AdminMetodos();
+    Usuario userData = new Usuario();
     ResultSet userPerfil = adminMetodos.perfilUser();
     PerfilUsuarios pU = new PerfilUsuarios();
     ProyectoApplication pa = new ProyectoApplication();
@@ -96,6 +97,7 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
         pU.EstablecerPerfil(idLabel,PerfilNombre, PerfilDpi, PerfilEmail,PerfilTelefono, PerfilAddress,
                 PerfilPrestamos, PerfilMultas, PerfilMultasTotal, PerfilCode, PerfilPrestamosDate);
 
+
         ActualizarTodo();
     }
     @Override
@@ -153,8 +155,8 @@ public class DashboardUser extends Usuario implements StageAwareController, Init
             code = PerfilCode.getPromptText();
         }
 
-        setDatos(id, name, dpi, code, number, "", correo, "", address, false);
-        int info = ActualizarUsuario();
+        userData.setDatos(id, name, dpi, code, number, "", correo, "", address, false);
+        int info = userData.ActualizarUsuario();
         switch (info){
             case 1:
                 Exitosamente.setVisible(true);

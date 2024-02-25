@@ -69,7 +69,7 @@ public class LoginController implements StageAwareController{
                         ProyectoApplication pa = new ProyectoApplication();
                         pa.mostrarVista(stage, "AdminUser.fxml");
                     }else {
-                        File file = new File("id.txt");
+                        File file = new File("Biblioteca/id.txt");
                         if (!file.exists()){
                             file.createNewFile();
                         }
