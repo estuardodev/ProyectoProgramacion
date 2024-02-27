@@ -302,6 +302,7 @@ public class DashboardUser implements StageAwareController, Initializable {
                             cantidad -= 1;
                             String query4 = "UPDATE libro SET cantidad_stock = '"+cantidad+"' WHERE id = '"+idLibro+"'";
                             DbConexion.ejecutarUpdate(query4);
+                            adminMetodos.GuardarAccion("un", user, "prestamo");
                             PrestarDispoible.setVisible(true);
                             PrestarDispoible.setText("Libro prestado");
                             PrestarDispoible.setTextFill(Color.YELLOWGREEN);
@@ -317,7 +318,7 @@ public class DashboardUser implements StageAwareController, Initializable {
                             PrestarCheck.setDisable(true);
                             PrestarPrestar.setDisable(true);
                             CargarDevolverBox(DevolverCombo, DevolverLabel);
-                            adminMetodos.GuardarAccion("un", user, "prestamo");
+
 
                         }
                     }
@@ -494,6 +495,7 @@ public class DashboardUser implements StageAwareController, Initializable {
                         DbConexion.ejecutarUpdate(update);
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
+                        adminMetodos.GuardarAccion("un", perfil, "pago total");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
                      MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
                  }else{
@@ -515,6 +517,7 @@ public class DashboardUser implements StageAwareController, Initializable {
                                 "ultimopago = NULL," +
                                 "librosprestados = '' WHERE id = '"+perfil.getString("id")+"'";
                         DbConexion.ejecutarUpdate(update);
+                        adminMetodos.GuardarAccion("un", perfil, "pago total");
                         PagarPagado.setVisible(true);
                         PagarPagado.setText("Pagado totalmente");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
@@ -533,6 +536,7 @@ public class DashboardUser implements StageAwareController, Initializable {
                         DbConexion.ejecutarUpdate(update);
                         MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
                         PagarPagado.setVisible(true);
+                        adminMetodos.GuardarAccion("un", perfil, "pago parcial");
                         PagarPagado.setText("Pagado parcialmente");
                         PagarPagado.setTextFill(Color.YELLOWGREEN);
                     }
