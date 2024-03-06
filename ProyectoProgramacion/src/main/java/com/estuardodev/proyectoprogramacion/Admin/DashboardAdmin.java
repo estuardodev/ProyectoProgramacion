@@ -349,26 +349,45 @@ public class DashboardAdmin implements StageAwareController, Initializable {
         try {
             String query = "SELECT * FROM libro WHERE titulo = '"+titulo+"' AND isbn = '"+isbn+"'";
             ResultSet rs = DbConexion.ConsultaSQL(query);
-            JsonArray jsonArray = am.convertResultSetToJson(rs);
 
-            // Obtener ubicación del archivo seleccionado por el usuario
+            StringBuilder stringBuilder = new StringBuilder();
+            if (rs.next()) {
+                String editorial = rs.getString("fkideditorial");
+                String autor = rs.getString("fkidautor");
+                String query_editorial = "SELECT nombre FROM editorial WHERE id = '"+editorial+"'";
+                String query_autor = "SELECT nombre FROM autor WHERE id = '"+autor+"'";
+                ResultSet rs_e = DbConexion.ConsultaSQL(query_editorial);
+                ResultSet rs_a = DbConexion.ConsultaSQL(query_autor);
+
+                if (rs_a.next() && rs_e.next()){
+                    stringBuilder.append("Título: ").append(rs.getString("titulo")).append("\n");
+                    stringBuilder.append("Editorial: ").append(rs_e.getString("nombre")).append("\n");
+                    stringBuilder.append("Fecha de publicación: ").append(rs.getString("fecha_publicacion")).append("\n");
+                    stringBuilder.append("ISBN: ").append(rs.getString("isbn")).append("\n");
+                    stringBuilder.append("Autor: ").append(rs_a.getString("nombre")).append("\n");
+                    stringBuilder.append("Cantidad en stock: ").append(rs.getInt("cantidad_stock")).append("\n\n");
+                }
+
+            }
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Guardar archivo JSON");
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo JSON", "*.json"));
+            fileChooser.setTitle("Guardar archivo de texto");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo de texto", "*.txt"));
             File selectedFile = fileChooser.showSaveDialog(null);
-
             if (selectedFile != null) {
-                am.saveJsonToFile(jsonArray, selectedFile.getAbsolutePath());
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(selectedFile))) {
+                    writer.write(stringBuilder.toString());
+                }
                 am.mostrarMensaje("Datos exportados correctamente a " + selectedFile.getAbsolutePath());
-                am.GuardarAccion("una", am.perfilUser(), "exportación");
                 am.GuardarAccion("una", am.perfilUser(), "exportación");
             } else {
                 am.mostrarMensaje("Exportación cancelada por el usuario.");
             }
-        }catch (SQLException e){
-
+        } catch (SQLException | IOException e) {
+            // Manejar la excepción
+            e.printStackTrace();
         }
     }
+
 
     // Autor
     @FXML
