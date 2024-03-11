@@ -1,5 +1,6 @@
 package com.estuardodev.proyectoprogramacion.Admin;
 
+import com.estuardodev.proyectoprogramacion.Clases.*;
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 import com.estuardodev.proyectoprogramacion.ProyectoApplication;
 import com.estuardodev.proyectoprogramacion.StageAwareController;
@@ -20,6 +21,9 @@ import javafx.stage.Stage;
 import javax.persistence.Convert;
 import java.io.*;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +37,7 @@ public class DashboardAdmin implements StageAwareController, Initializable {
 
     private Stage stage;
     private AdminMetodos am = new AdminMetodos();
-    Usuario usuario = new Usuario();
+
     Utils utils = new Utils();
     String email_global;
 
@@ -499,7 +503,7 @@ public class DashboardAdmin implements StageAwareController, Initializable {
             code = PerfilCode.getPromptText();
         }
 
-        usuario.setDatos(id, name, dpi, code, number, username, correo, "", address, true);
+        Usuario usuario = new Usuario(Integer.parseInt(id), name, dpi, Integer.parseInt(code), number, username, correo, "", address, true);
         int info = usuario.ActualizarUsuario();
         switch (info){
             case 1:
@@ -749,4 +753,113 @@ public class DashboardAdmin implements StageAwareController, Initializable {
             idCargar.setVisible(false);
         });
     }
+
+    @FXML
+    private void ExportarTodo(){
+        AdminMetodos adminMetodos = new AdminMetodos();
+        String query_libro = "SELECT * FROM libro";
+        String query_autor = "SELECT * FROM autor";
+        String query_editorial = "SELECT * FROM editorial";
+        String query_usuario = "SELECT * FROM usuario";
+        String query_historial_acciones = "SELECT * FROM historial_acciones";
+        String query_codigotelefono = "SELECT * FROM codigotelefono";
+
+        try {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar archivo OBJ");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo obj", "*.obj"));
+            File selectedFile = fileChooser.showSaveDialog(null);
+
+            if (selectedFile != null) {
+                Path path = Paths.get(selectedFile.toURI());
+                OutputStream os = Files.newOutputStream(path);
+                ObjectOutputStream oos = new ObjectOutputStream(os);
+
+                ResultSet rs_autor = DbConexion.ConsultaSQL(query_autor);
+                while (rs_autor.next()) {
+                    Autor autor = new Autor(
+                            rs_autor.getInt("id"),
+                            rs_autor.getString("nombre")
+                    );
+                    oos.writeObject(autor);
+                }
+
+                ResultSet rs_editorial = DbConexion.ConsultaSQL(query_editorial);
+                while (rs_editorial.next()) {
+                    Editorial editorial = new Editorial(
+                            rs_editorial.getInt("id"),
+                            rs_editorial.getString("nombre")
+                    );
+                    oos.writeObject(editorial);
+                }
+
+                ResultSet rs_libro = DbConexion.ConsultaSQL(query_libro);
+                while (rs_libro.next()) {
+                    Libro libro = new Libro(
+                            rs_libro.getInt("id"),
+                            rs_libro.getString("titulo"),
+                            rs_libro.getDate("fecha_publicacion"),
+                            rs_libro.getString("isbn"),
+                            rs_libro.getInt("cantidad_stock"),
+                            rs_libro.getInt("fkidautor"),
+                            rs_libro.getInt("fkideditorial")
+                    );
+                    oos.writeObject(libro);
+                }
+
+                ResultSet rs_codigotelefono = DbConexion.ConsultaSQL(query_codigotelefono);
+                while (rs_codigotelefono.next()) {
+                    CodigoTelefono codigoTelefono = new CodigoTelefono(
+                            rs_codigotelefono.getInt("id"),
+                            rs_codigotelefono.getInt("codigo")
+                    );
+                    oos.writeObject(codigoTelefono);
+                }
+
+                ResultSet rs_usuario = DbConexion.ConsultaSQL(query_usuario);
+                while (rs_usuario.next()) {
+                    Usuario usuario = new Usuario(
+                            rs_usuario.getInt("id"),
+                            rs_usuario.getString("identificador"),
+                            rs_usuario.getString("nombre"),
+                            rs_usuario.getString("telefono"),
+                            rs_usuario.getInt("cantidad_prestamo"),
+                            rs_usuario.getString("vencimiento_prestamo"),
+                            rs_usuario.getString("direccion"),
+                            rs_usuario.getInt("multas_pendientes"),
+                            rs_usuario.getDouble("total_deudas_pendientes"),
+                            rs_usuario.getInt("codigo_telefono"),
+                            rs_usuario.getString("username"),
+                            rs_usuario.getString("password"),
+                            rs_usuario.getBoolean("es_admin"),
+                            rs_usuario.getBoolean("activo"),
+                            rs_usuario.getString("email"),
+                            rs_usuario.getString("resend"),
+                            rs_usuario.getBoolean("recopilar"),
+                            rs_usuario.getString("librosprestados")
+                    );
+                    oos.writeObject(usuario);
+                }
+
+                ResultSet rs_historialacciones = DbConexion.ConsultaSQL(query_historial_acciones);
+                while (rs_historialacciones.next()) {
+                    HistorialAcciones historialAcciones = new HistorialAcciones(
+                            rs_historialacciones.getInt("id"),
+                            rs_historialacciones.getInt("usuario_id"),
+                            rs_historialacciones.getString("accion"),
+                            rs_historialacciones.getDate("fecha")
+                    );
+                    oos.writeObject(historialAcciones);
+                }
+            } else {
+                adminMetodos.mostrarMensaje("Exportación cancelada por el usuario.");
+            }
+
+        } catch (IOException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

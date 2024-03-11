@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 public class CreateUserController implements Initializable, StageAwareController {
     private Stage stage;
 
-    Usuario usuario = new Usuario();
+
 
     @Override
     public void setStage(Stage stage) {
@@ -73,7 +73,7 @@ public class CreateUserController implements Initializable, StageAwareController
             String pass = Encrypt.getSHA256(txtPass.getText());
             String email = txtCorreo.getText();
 
-            usuario.setDatos("", nombre, dpi, code, number, user, email, pass,
+            Usuario usuario = new Usuario(0, nombre, dpi, Integer.parseInt(code), number, user, email, pass,
                     address, false);
             int info = usuario.CrearUsuario();
             switch (info){

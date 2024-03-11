@@ -35,7 +35,7 @@ public class DashboardUser implements StageAwareController, Initializable {
     private Stage stage;
     // Instancia de Clases
     AdminMetodos adminMetodos = new AdminMetodos();
-    Usuario userData = new Usuario();
+
     ResultSet userPerfil = adminMetodos.perfilUser();
     PerfilUsuarios pU = new PerfilUsuarios();
     ProyectoApplication pa = new ProyectoApplication();
@@ -155,7 +155,7 @@ public class DashboardUser implements StageAwareController, Initializable {
             code = PerfilCode.getPromptText();
         }
 
-        userData.setDatos(id, name, dpi, code, number, "", correo, "", address, false);
+        Usuario userData = new Usuario(Integer.parseInt(id), name, dpi, Integer.parseInt(code), number, "", correo, "", address, false);
         int info = userData.ActualizarUsuario();
         switch (info){
             case 1:
