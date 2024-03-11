@@ -614,5 +614,6 @@
          </font>
       </Label>
       <Button layoutX="689.0" layoutY="18.0" mnemonicParsing="false" onAction="#ActualizarEstados" text="Actualizar todo" />
+      <Button layoutX="580.0" layoutY="18.0" mnemonicParsing="false" onAction="#ExportarTodo" text="Exportar Todo" />
    </children>
 </Pane>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="ProyectoProgramacion:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="74794c53-7260-430e-9284-025df4de7049" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="AnnotationType" />
+        <option value="JavaFXApplication" />
+        <option value="package-info" />
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2buk1NJH3stHMk7Nf70ODShPflG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Estuardo/OneDrive/Desktop/ProyectoProgramacion/ProyectoProgramacion",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.30114943",
+    "settings.editor.selected.configurable": "com.github.copilot.settings.ApplicationConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.estuardodev.proyectoprogramacion.DataBase" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Estuardo\OneDrive\Desktop\ProyectoProgramacion\ProyectoProgramacion\src\main\resources\com\estuardodev\proyectoprogramacion" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.estuardodev.proyectoprogramacion" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ProyectoApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.estuardodev.proyectoprogramacion.ProyectoApplication" />
+      <module name="ProyectoProgramacion" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="74794c53-7260-430e-9284-025df4de7049" name="Changes" comment="" />
+      <created>1707072137439</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1707072137439</updated>
+      <workItem from="1707072138319" duration="13092000" />
+      <workItem from="1707277616856" duration="6609000" />
+      <workItem from="1707286607259" duration="1917000" />
+      <workItem from="1707336868511" duration="25207000" />
+      <workItem from="1707427389769" duration="30997000" />
+      <workItem from="1707496981365" duration="27226000" />
+      <workItem from="1707540668702" duration="1365000" />
+      <workItem from="1707623809119" duration="4000" />
+      <workItem from="1707624330253" duration="2180000" />
+      <workItem from="1708028225631" duration="2475000" />
+      <workItem from="1708117825423" duration="27220000" />
+      <workItem from="1708149635801" duration="703000" />
+      <workItem from="1708282503275" duration="3213000" />
+      <workItem from="1708296687499" duration="915000" />
+      <workItem from="1708303564383" duration="739000" />
+      <workItem from="1708309674603" duration="15425000" />
+      <workItem from="1708391722935" duration="16202000" />
+      <workItem from="1708830225638" duration="4738000" />
+      <workItem from="1708883704540" duration="7307000" />
+      <workItem from="1708995154385" duration="4095000" />
+      <workItem from="1709418376550" duration="900000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
