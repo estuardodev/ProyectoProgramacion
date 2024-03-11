@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.estuardodev.proyectoprogramacion.Admin.FirstLogin">
    <children>
       <Label layoutX="335.0" layoutY="16.0" text="EMPECEMOS">
@@ -80,5 +79,7 @@
             <Font size="13.0" />
          </font>
       </Label>
+      <Button layoutX="678.0" layoutY="15.0" mnemonicParsing="false" onAction="#ImportarTodo" text="Importar Datos" />
+      <Button fx:id="CrearImportado" disable="true" layoutX="314.0" layoutY="524.0" mnemonicParsing="false" onAction="#CrearImportado" prefHeight="36.0" prefWidth="167.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-family: Arial; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-background-radius: 5px; -fx-cursor: hand;" text="Crear Administrador" visible="false" />
    </children>
 </Pane>
