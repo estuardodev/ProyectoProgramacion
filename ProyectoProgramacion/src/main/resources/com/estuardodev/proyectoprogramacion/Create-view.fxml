@@ -12,7 +12,7 @@
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.estuardodev.proyectoprogramacion.CreateUserController">
 
    <children>
-      <Button fx:id="btnRegister" layoutX="262.0" layoutY="464.0" mnemonicParsing="false" onAction="#btnRegister" prefHeight="25.0" prefWidth="285.0" text="Registrame" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+      <Button fx:id="btnRegister" layoutX="262.0" layoutY="464.0" mnemonicParsing="false" onAction="#btnRegister" prefHeight="25.0" prefWidth="285.0" style="-fx-background-color: #211951; -fx-text-fill: #FFF;" text="Registrame" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
          <font>
             <Font name="Arial Bold" size="13.0" />
          </font></Button>
@@ -37,7 +37,7 @@
       </Label>
       <Separator layoutX="303.0" layoutY="83.0" prefWidth="200.0" />
       <Separator layoutX="303.0" layoutY="504.0" prefWidth="200.0" />
-      <Button fx:id="btnLogin" layoutX="359.0" layoutY="516.0" mnemonicParsing="false" onAction="#btnLogin" text="Iniciar Sesión" />
+      <Button fx:id="btnLogin" layoutX="359.0" layoutY="516.0" mnemonicParsing="false" onAction="#btnLogin" style="-fx-background-color: #003C43; -fx-text-fill: #FFF;" text="Iniciar Sesión" />
       <TextField fx:id="txtDpi" layoutX="260.0" layoutY="109.0" prefHeight="25.0" prefWidth="285.0" promptText="Sin espacios, ni guiones" />
       <Label layoutX="260.0" layoutY="248.0" text="Correo electrónico" />
       <TextField fx:id="txtCorreo" layoutX="258.0" layoutY="265.0" prefHeight="25.0" prefWidth="285.0" promptText="correo@ejemplo.com" />

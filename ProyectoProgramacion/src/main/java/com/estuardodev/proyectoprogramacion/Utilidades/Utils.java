@@ -17,6 +17,8 @@ import com.resend.services.emails.model.SendEmailRequest;
 import com.resend.services.emails.model.SendEmailResponse;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 public class Utils {
@@ -35,7 +37,6 @@ public class Utils {
 
         return code;
     }
-
     public static void SendCode(String code, String correo){
 
         String apiKey = "";

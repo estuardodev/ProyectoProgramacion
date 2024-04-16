@@ -28,7 +28,7 @@
       </Label>
       <TabPane layoutX="-2.0" layoutY="100.0" prefHeight="498.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Administrar Libros">
+          <Tab fx:id="tab1" text="Administrar Libros">
             <content>
               <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -36,14 +36,14 @@
                           <tabs>
                               <Tab text="Consultar">
                                 <content>
-                                  <Pane minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="776.0">
+                                  <Pane minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="776.0" style="-fx-background-color: #F6FFCA;">
                                        <children>
                                           <Label layoutX="27.0" layoutY="37.0" text="Selecciona el libro a consultar:">
                                              <font>
                                                 <Font name="Arial Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="bxConsultarLibro" layoutX="209.0" layoutY="32.0" prefHeight="25.0" prefWidth="333.0" promptText="Seleccionar" />
+                                          <ComboBox fx:id="bxConsultarLibro" layoutX="209.0" layoutY="32.0" prefHeight="25.0" prefWidth="333.0" promptText="Seleccionar" style="-fx-background-color: #33FF77;" />
                                           <Button fx:id="btnConsultarBuscar" layoutX="550.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnConsultarBuscar" text="Buscar">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
@@ -92,7 +92,7 @@
                               </Tab>
                             <Tab text="Agregar">
                               <content>
-                                <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #CAFFFD;">
                                        <children>
                                           <Label layoutX="328.0" layoutY="29.0" text="Agregar Libro">
                                              <font>
@@ -144,14 +144,14 @@
                             </Tab>
                               <Tab text="Actualizar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="776.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="426.0" prefWidth="776.0" style="-fx-background-color: #E9FFCA;">
                                        <children>
                                           <Label layoutX="27.0" layoutY="37.0" text="Selecciona el libro a consultar:">
                                              <font>
                                                 <Font name="Arial Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="bxULibroActualizar" layoutX="209.0" layoutY="32.0" prefHeight="25.0" prefWidth="333.0" promptText="Seleccionar" />
+                                          <ComboBox fx:id="bxULibroActualizar" layoutX="209.0" layoutY="32.0" prefHeight="25.0" prefWidth="333.0" promptText="Seleccionar" style="-fx-background-color: #33E9FF;" />
                                           <Button fx:id="btnULibroActualizar" layoutX="550.0" layoutY="33.0" mnemonicParsing="false" onAction="#btnULibroActualizar" text="Buscar">
                                              <font>
                                                 <Font name="Arial" size="12.0" />
@@ -210,7 +210,7 @@
                               </Tab>
                               <Tab text="Eliminar">
                                 <content>
-                                  <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFCACA;">
                                        <children>
                                           <Label layoutX="297.0" layoutY="36.0" text="ELIMINAR LIBRO">
                                              <font>
@@ -219,7 +219,7 @@
                                           </Label>
                                           <Label layoutX="300.0" layoutY="67.0" text="¡Cuidado! Esta acción es irreversible" textFill="#fc0000" />
                                           <Label layoutX="137.0" layoutY="101.0" text="Seleccione el libro a borrar:" />
-                                          <ComboBox fx:id="cbBorrarLibro" layoutX="297.0" layoutY="97.0" prefHeight="25.0" prefWidth="244.0" promptText="CUIDADO" />
+                                          <ComboBox fx:id="cbBorrarLibro" layoutX="297.0" layoutY="97.0" prefHeight="25.0" prefWidth="244.0" promptText="CUIDADO" style="-fx-background-color: #FFBE33;" />
                                           <Button layoutX="563.0" layoutY="97.0" mnemonicParsing="false" onAction="#btnSeleccionarBorrarLibro" text="Seleccionar" />
                                           <Label layoutX="248.0" layoutY="153.0" text="Título:" />
                                           <TextField fx:id="BorrarTituloLibro" layoutX="297.0" layoutY="149.0" prefHeight="25.0" prefWidth="242.0" />
@@ -242,7 +242,7 @@
                   </Pane>
             </content>
           </Tab>
-            <Tab text="Administrar Autores">
+            <Tab fx:id="tab2" text="Administrar Autores">
               <content>
                 <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -250,7 +250,7 @@
                            <tabs>
                               <Tab text="Consultar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="427.0" prefWidth="796.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="427.0" prefWidth="796.0" style="-fx-background-color: #F6FFCA;">
                                        <children>
                                           <Button layoutX="510.0" layoutY="201.0" mnemonicParsing="false" onAction="#autorActualizar" text="Actualizar" />
                                           <Label layoutX="233.0" layoutY="6.0" text="Autores Existentes" textFill="#860b0b">
@@ -263,7 +263,7 @@
                               </Tab>
                               <Tab text="Agregar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #CAFFFD;">
                                        <children>
                                           <Label layoutX="311.0" layoutY="28.0" text="Agregar nuevo autor">
                                              <font>
@@ -280,14 +280,14 @@
                               </Tab>
                               <Tab text="Actualizar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0" style="-fx-background-color: #E9FFCA;">
                                        <children>
                                           <Label layoutX="299.0" layoutY="14.0" text="Actualizar Autores">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="cbAutorActualizar" layoutX="268.0" layoutY="66.0" onAction="#cbAutorActualizar" prefHeight="25.0" prefWidth="292.0" />
+                                          <ComboBox fx:id="cbAutorActualizar" layoutX="268.0" layoutY="66.0" onAction="#cbAutorActualizar" prefHeight="25.0" prefWidth="292.0" style="-fx-background-color: #33FF77;" />
                                           <Label layoutX="140.0" layoutY="70.0" text="Selecciona al autor:" />
                                           <TextField fx:id="NombreActualizarAutor" layoutX="269.0" layoutY="160.0" prefHeight="25.0" prefWidth="291.0" />
                                           <Label layoutX="195.0" layoutY="164.0" text="Nombre:" />
@@ -303,7 +303,7 @@
                               </Tab>
                               <Tab text="Eliminar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFCACA;">
                                        <children>
                                           <Label layoutX="313.0" layoutY="33.0" text="Eliminar Autor" textFill="RED">
                                              <font>
@@ -312,7 +312,7 @@
                                           </Label>
                                           <Label layoutX="165.0" layoutY="64.0" text="Esta acción es irreversible y solo puedes eliminar autores que no tengan libros publicados" textFill="#a10808" />
                                           <Label layoutX="131.0" layoutY="95.0" text="Seleeciona el autora a eliminar:" />
-                                          <ComboBox fx:id="cbEliminarAutor" layoutX="305.0" layoutY="91.0" prefHeight="25.0" prefWidth="193.0" />
+                                          <ComboBox fx:id="cbEliminarAutor" layoutX="305.0" layoutY="91.0" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #FFBE33;" />
                                           <CheckBox fx:id="checkEliminarAutor" layoutX="261.0" layoutY="132.0" mnemonicParsing="false" text="Acepto que el eliminarlo es permanentemente" />
                                           <Button layoutX="365.0" layoutY="159.0" mnemonicParsing="false" onAction="#EliminarAutor" text="Eliminar" />
                                           <Label fx:id="msgEliminado" layoutX="363.0" layoutY="205.0" text="ELIMINADO" textFill="RED" visible="false" />
@@ -325,7 +325,7 @@
                      </children></Pane>
               </content>
             </Tab>
-            <Tab text="Administrar Editoriales">
+            <Tab fx:id="tab3" text="Administrar Editoriales">
               <content>
                 <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -333,7 +333,7 @@
                            <tabs>
                               <Tab text="Consultar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #F6FFCA;">
                                        <children>
                                           <ListView fx:id="listEditorial" layoutX="307.0" layoutY="53.0" prefHeight="322.0" prefWidth="246.0" />
                                           <Button layoutX="396.0" layoutY="381.0" mnemonicParsing="false" onAction="#editorialActualizar" text="Actualizar" />
@@ -347,7 +347,7 @@
                               </Tab>
                               <Tab text="Agregar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #CAFFFD;">
                                        <children>
                                           <Label layoutX="252.0" layoutY="29.0" text="Agregar una nueva Editorial" textFill="#582bff">
                                              <font>
@@ -368,9 +368,9 @@
                               </Tab>
                               <Tab text="Actualizar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0" style="-fx-background-color: #E9FFCA;">
                                        <children>
-                                          <ComboBox fx:id="cbEditorialActualizar" layoutX="262.0" layoutY="89.0" onAction="#cbEditorialActualizar" prefHeight="25.0" prefWidth="259.0" />
+                                          <ComboBox fx:id="cbEditorialActualizar" layoutX="262.0" layoutY="89.0" onAction="#cbEditorialActualizar" prefHeight="25.0" prefWidth="259.0" style="-fx-background-color: #33FF77;" />
                                           <TextField fx:id="NombreActualizarEditorial" layoutX="262.0" layoutY="168.0" prefHeight="25.0" prefWidth="260.0" />
                                           <Button layoutX="369.0" layoutY="214.0" mnemonicParsing="false" onAction="#SaveEditorialActualizar" text="Actualizar" />
                                           <Button layoutX="529.0" layoutY="89.0" mnemonicParsing="false" onAction="#editorialActualizarUpdate" text="Actualizar" />
@@ -391,9 +391,9 @@
                               </Tab>
                               <Tab text="Eliminar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFCACA;">
                                        <children>
-                                          <ComboBox fx:id="cbEliminarEditorial" layoutX="251.0" layoutY="128.0" prefHeight="25.0" prefWidth="315.0" />
+                                          <ComboBox fx:id="cbEliminarEditorial" layoutX="251.0" layoutY="128.0" prefHeight="25.0" prefWidth="315.0" style="-fx-background-color: #FFBE33;" />
                                           <Button layoutX="369.0" layoutY="170.0" mnemonicParsing="false" onAction="#EliminarEditorial" text="Eliminar" />
                                           <CheckBox fx:id="checkEliminarEditorial" layoutX="253.0" layoutY="153.0" mnemonicParsing="false" text="Acepto que al eliminar, se eliminará permanentemente" />
                                           <Label fx:id="msgEliminadoEditorial" alignment="CENTER" layoutX="213.0" layoutY="214.0" prefHeight="25.0" prefWidth="388.0" text="Editorial eliminada con exitos." textFill="#b90303" visible="false">
@@ -416,7 +416,7 @@
                      </children></Pane>
               </content>
             </Tab>
-            <Tab text="Administrar Códigos">
+            <Tab fx:id="tab4" text="Administrar Códigos">
                <content>
                   <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -424,7 +424,7 @@
                            <tabs>
                               <Tab text="Consultar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #F6FFCA;">
                                        <children>
                                           <ListView fx:id="CodigoList" layoutX="307.0" layoutY="53.0" prefHeight="322.0" prefWidth="246.0" />
                                           <Button layoutX="396.0" layoutY="381.0" mnemonicParsing="false" onAction="#CodigoActualizar" text="Actualizar" />
@@ -439,7 +439,7 @@
                               </Tab>
                               <Tab text="Agregar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #CAFFFD;">
                                        <children>
                                           <Label layoutX="252.0" layoutY="29.0" text="Agregar una nueva Editorial" textFill="#582bff">
                                              <font>
@@ -461,9 +461,9 @@
                               </Tab>
                               <Tab text="Actualizar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="309.0" prefWidth="474.0" style="-fx-background-color: #E9FFCA;">
                                        <children>
-                                          <ComboBox fx:id="CBCodigo" layoutX="262.0" layoutY="89.0" onAction="#CBCodigo" prefHeight="25.0" prefWidth="259.0" />
+                                          <ComboBox fx:id="CBCodigo" layoutX="262.0" layoutY="89.0" onAction="#CBCodigo" prefHeight="25.0" prefWidth="259.0" style="-fx-background-color: #33FF77;" />
                                           <TextField fx:id="CodigoActualizarCode" layoutX="262.0" layoutY="168.0" prefHeight="25.0" prefWidth="260.0" />
                                           <Button layoutX="369.0" layoutY="214.0" mnemonicParsing="false" onAction="#SaveActualizarCodigo" text="Actualizar" />
                                           <Button layoutX="529.0" layoutY="89.0" mnemonicParsing="false" onAction="#CodigoActualizarCb" text="Actualizar" />
@@ -485,9 +485,9 @@
                               </Tab>
                               <Tab text="Eliminar">
                                  <content>
-                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                    <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #FFCACA;">
                                        <children>
-                                          <ComboBox fx:id="cbEliminarCodigo" layoutX="251.0" layoutY="128.0" prefHeight="25.0" prefWidth="315.0" />
+                                          <ComboBox fx:id="cbEliminarCodigo" layoutX="251.0" layoutY="128.0" prefHeight="25.0" prefWidth="315.0" style="-fx-background-color: #FFBE33;" />
                                           <Button fx:id="EliminarCodigo" disable="true" layoutX="369.0" layoutY="170.0" mnemonicParsing="false" onAction="#EliminarCodigo" text="Eliminar" />
                                           <CheckBox fx:id="checkEliminarCode" layoutX="253.0" layoutY="153.0" mnemonicParsing="false" onAction="#checkEliminarCode" text="Acepto que al eliminar, se eliminará permanentemente" />
                                           <Label fx:id="msgEliminadoCodigo" alignment="CENTER" layoutX="213.0" layoutY="214.0" prefHeight="25.0" prefWidth="388.0" text="Editorial eliminada con exitos." textFill="#b90303" visible="false">
@@ -512,9 +512,9 @@
                   </Pane>
                </content>
             </Tab>
-            <Tab text="Perfil">
+            <Tab fx:id="tab5" text="Perfil">
               <content>
-                <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #B6FFCA;">
                      <children>
                         <Label layoutX="338.0" layoutY="13.0" text="TU PERFIL">
                            <font>
@@ -590,7 +590,7 @@
                      </children></Pane>
               </content>    
             </Tab>
-            <Tab text="Historial">
+            <Tab fx:id="tab6" text="Historial">
                <content>
                   <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -613,7 +613,8 @@
             <Font name="Arial Bold" size="22.0" />
          </font>
       </Label>
-      <Button layoutX="689.0" layoutY="18.0" mnemonicParsing="false" onAction="#ActualizarEstados" text="Actualizar todo" />
-      <Button layoutX="580.0" layoutY="18.0" mnemonicParsing="false" onAction="#ExportarTodo" text="Exportar Todo" />
+      <Button layoutX="667.0" layoutY="15.0" mnemonicParsing="false" onAction="#ActualizarEstados" style="-fx-background-color: #33FF77; -fx-font-size: 14px;" text="Actualizar todo" />
+      <Button layoutX="555.0" layoutY="15.0" mnemonicParsing="false" onAction="#ExportarTodo" style="-fx-background-color: #ACFF33; -fx-font-size: 14px;" text="Exportar Todo" />
+      <Button layoutX="437.0" layoutY="15.0" mnemonicParsing="false" onAction="#ImportarDatos" style="-fx-background-color: #FFCE33; -fx-font-size: 14px;" text="Importar Datos" />
    </children>
 </Pane>

@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -114,6 +115,10 @@ public class DashboardAdmin implements StageAwareController, Initializable {
     @FXML
     Label msgGuardadoCodigo, msgUpdateCodigo, msgEliminadoCodigo, idCargar;
 
+    // Tabs
+    @FXML
+    Tab tab1, tab2, tab3, tab4, tab5, tab6;
+
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -122,6 +127,7 @@ public class DashboardAdmin implements StageAwareController, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         perfilCargar();
         ActualizarTodo();
+
     }
 
 
@@ -858,6 +864,73 @@ public class DashboardAdmin implements StageAwareController, Initializable {
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void ImportarDatos(){
+        AdminMetodos adminMetodos = new AdminMetodos();
+        boolean admin_exist = false;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Abrir archivo OBJ");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivo obj", "*.obj"));
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            idCargar.setVisible(true);
+            idCargar.setText("Importando datos...");
+            try  {
+                Path path = Paths.get(selectedFile.getAbsolutePath());
+                InputStream is = Files.newInputStream(path);
+                ObjectInputStream ois = new ObjectInputStream(is);
+                while (true) {
+                    try {
+                        Object obj = ois.readObject();
+                        if (obj instanceof Libro) {
+                            Libro libro = (Libro) obj;
+                            libro.CrearLibro();
+                        } else if (obj instanceof Autor) {
+                            Autor autor = (Autor) obj;
+                            autor.CrearAutor();
+                        } else if (obj instanceof Editorial) {
+                            Editorial editorial = (Editorial) obj;
+                            editorial.CrearEditorial();
+                        } else if (obj instanceof Usuario) {
+                            Usuario usuario = (Usuario) obj;
+                            if (usuario.getAdmin()){
+                                admin_exist = true;
+                                System.out.println("Existe administrador");
+                            }
+                            usuario.CrearUsuario();
+                        } else if (obj instanceof CodigoTelefono) {
+                            CodigoTelefono codigoTelefono = (CodigoTelefono) obj;
+                            codigoTelefono.CrearCodigoTelefono();
+                        } else if (obj instanceof HistorialAcciones) {
+                            HistorialAcciones historialAcciones = (HistorialAcciones) obj;
+                            historialAcciones.CrearHistorialAcciones();
+                        } else {
+                            break;
+                        }
+                    } catch (EOFException e) {
+                        break;
+                    }
+                }
+
+                idCargar.setVisible(false);
+                idCargar.setText("Datos Importados");
+                try{
+                    Thread.sleep(2000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                idCargar.setVisible(true);
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }else {
+            adminMetodos.mostrarMensaje("Importación cancelada por el usuario.");
+        }
+
+
     }
 
 

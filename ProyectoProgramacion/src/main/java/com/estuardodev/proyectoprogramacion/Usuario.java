@@ -1,5 +1,6 @@
 package com.estuardodev.proyectoprogramacion;
 
+import com.estuardodev.proyectoprogramacion.Clases.CodigoTelefono;
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 
 import java.io.Serializable;
@@ -100,8 +101,8 @@ public class Usuario implements Serializable {
 
                         return 0;
                     }else {
-                        String id_code_query = "SELECT id FROM codigotelefono WHERE codigo = '" + codigo + "'";
-                        ResultSet rs = DbConexion.ConsultaSQL(id_code_query);
+                        CodigoTelefono ct = new CodigoTelefono(0, codigo);
+                        ResultSet rs = ct.getIdTelefono();
 
                         if (rs.next()) {
                             String id_code = rs.getString("id");
@@ -161,5 +162,9 @@ public class Usuario implements Serializable {
             e.printStackTrace();
             return 9;
         }
+    }
+
+    public void EliminarUsuario(){
+        DbConexion.eliminarRegistro("usuario", "id", "", Integer.toString(id), "");
     }
 }
