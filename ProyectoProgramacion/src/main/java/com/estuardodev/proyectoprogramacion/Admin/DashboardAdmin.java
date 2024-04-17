@@ -11,13 +11,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import javax.persistence.Convert;
 import java.io.*;
@@ -31,6 +35,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
@@ -127,7 +132,13 @@ public class DashboardAdmin implements StageAwareController, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         perfilCargar();
         ActualizarTodo();
+        try {
+            cargarTelefonosAdmin();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> cargarUsers());
     }
 
 
@@ -423,8 +434,8 @@ public class DashboardAdmin implements StageAwareController, Initializable {
     }
     @FXML
     protected void SaveAutorActualizar(){
-        autorActualizarUpdate();
         am.ActualizarElemento("autor", "nombre", NombreActualizarAutor, cbAutorActualizar, msgUpdateAutor, am.perfilUser());
+        autorActualizarUpdate();
     }
     @FXML
     protected void EliminarAutor(){
@@ -930,9 +941,190 @@ public class DashboardAdmin implements StageAwareController, Initializable {
             adminMetodos.mostrarMensaje("Importación cancelada por el usuario.");
         }
 
+    }
+
+    @FXML
+    TextField idGetNombre, idGetDpi, idGetNumero, idGetCorreo, idGetDireccion, idGetUsername, idGetPassword;
+    @FXML
+    Button idGetCrear;
+    @FXML
+    ComboBox<CodigoTelefono>  idGetCodigo;
+    @FXML
+    Label idGetMensaje;
+
+    @FXML
+    protected void idGetCrear(){
+        String nombre = idGetNombre.getText();
+        String dpi = idGetDpi.getText();
+        String numero = idGetNumero.getText();
+        CodigoTelefono codigo = idGetCodigo.getValue();
+        String direccion = idGetDireccion.getText();
+        String username = idGetUsername.getText();
+        String password = idGetPassword.getText();
+        String correo = idGetCorreo.getText();
+
+        if (nombre.isBlank() || nombre.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es necesario un nombre y apellidos");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (dpi.isBlank() || dpi.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es obligatorio el DPI");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (numero.isBlank() || numero.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es necesario el número telefónico");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (direccion.isBlank() || direccion.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es neceario la dirección");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (username.isBlank() || username.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es neceario un nombre de usuario");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (codigo == null){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es necesario un código de teléfono");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (password.isBlank() || password.isEmpty()){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Es obligatorio una contraseña");
+            idGetMensaje.setTextFill(Color.RED);
+        } else if (dpi.length() != 13){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("El DPI debe de ser de 13 caractéres");
+            idGetMensaje.setTextFill(Color.RED);
+        }else if (correo.isBlank() || !correo.contains("@")){
+            idGetMensaje.setVisible(true);
+            idGetMensaje.setText("Ingrese un correo electrónico válido");
+            idGetMensaje.setTextFill(Color.RED);
+        }else{
+            Usuario user = new Usuario();
+            user.setAdmin(true);
+            user.setDpi(dpi);
+            user.setNombre(nombre);
+            user.setCodigo(codigo.getId());
+            user.setTelefono(numero);
+            user.setCorreo(correo);
+            user.setAddress(direccion);
+            user.setUsername(username);
+            user.setActivo(true);
+            user.setRecopilar(true);
+            user.setPassword(Encrypt.getSHA256(password));
+            int status = user.CrearAdminInAdmin();
+            switch (status){
+                case 0:
+                    idGetMensaje.setVisible(true);
+                    idGetMensaje.setText("Usuario Creado Correctamente");
+                    idGetMensaje.setTextFill(Color.GREEN);
+                    idGetNombre.clear();
+                    idGetDireccion.clear();
+                    idGetDpi.clear();
+                    idGetCorreo.clear();
+                    idGetNumero.clear();
+                    idGetPassword.clear();
+                    idGetUsername.clear();
+
+                    break;
+                case 5:
+                    idGetMensaje.setVisible(true);
+                    idGetMensaje.setText("El nombre de usuario ya existe");
+                    idGetMensaje.setTextFill(Color.RED);
+                    break;
+                case 6:
+                    idGetMensaje.setVisible(true);
+                    idGetMensaje.setText("El Correo ya existe");
+                    idGetMensaje.setTextFill(Color.RED);
+                    break;
+                case 7:
+                    idGetMensaje.setVisible(true);
+                    idGetMensaje.setText("El DPI ya existe");
+                    idGetMensaje.setTextFill(Color.RED);
+                    break;
+                case 9:
+                    idGetMensaje.setVisible(true);
+                    idGetMensaje.setText("Error Interno");
+                    idGetMensaje.setTextFill(Color.RED);
+                    break;
+            }
+        }
+
+
+    }
+
+    @FXML
+    TableView<Usuario> listUsers;
+    @FXML
+    TableColumn<Usuario, String> listDpi, listName, ListDireccion, listCorreo, listUsername, listNumero;
+
+    @FXML
+    TextField buscarUsers;
+
+    private void cargarUsers(){
+        Usuario user = new Usuario();
+        List<Usuario> usuarios = user.obtenerTodo();
+        ObservableList<Usuario> items = FXCollections.observableArrayList();
+        items.addAll(usuarios);
+        listUsers.setItems(items);
+        listDpi.setCellValueFactory(new PropertyValueFactory<>("dpi"));
+        listName.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        ListDireccion.setCellValueFactory(new PropertyValueFactory<>("address"));
+        listCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
+        listUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        listNumero.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+
+        FilteredList<Usuario> filteredList = new FilteredList<>(items, b -> true);
+
+        // Evento cuando el valor cambia
+        buscarUsers.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(libro -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String minusculas = newValue.toLowerCase();
+                if (libro.getDpi().toLowerCase().contains(minusculas)){
+                    return true;
+                }else if(libro.getCorreo().toLowerCase().contains(minusculas)){
+                    return true;
+                }else if(libro.getUsername().toLowerCase().contains(minusculas)){
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+
+        SortedList<Usuario> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(listUsers.comparatorProperty());
+        listUsers.setItems(sortedList);
+    }
+
+    private void cargarTelefonosAdmin() throws SQLException {
+        CodigoTelefono ct = new CodigoTelefono();
+        List<CodigoTelefono> telefonos =  ct.obtenerTodos();
+
+        idGetCodigo.getItems().addAll(telefonos);
+        StringConverter<CodigoTelefono> autorStringConverter = new StringConverter<CodigoTelefono>() {
+            @Override
+            public String toString(CodigoTelefono telefono) {
+                return telefono != null ? String.valueOf(telefono.getCodigo()) : "";
+            }
+
+            @Override
+            public CodigoTelefono fromString(String string) {
+                return null;
+            }
+        };
+
+        idGetCodigo.setConverter(autorStringConverter);
 
     }
 
 
-
+    @FXML
+    protected void btnBuscarLibro() throws IOException {
+        ProyectoApplication pa = new ProyectoApplication();
+        pa.mostrarVista(stage, "BuscarLibro.fxml");
+    }
 }

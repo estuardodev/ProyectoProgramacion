@@ -18,7 +18,7 @@
 
 <Pane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.estuardodev.proyectoprogramacion.Usuarios.DashboardUser">
    <children>
-      <TabPane layoutY="-2.0" prefHeight="609.0" prefWidth="806.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutY="-1.0" prefHeight="608.0" prefWidth="806.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="Perfil">
                 <content>
@@ -272,5 +272,6 @@
         </tabs>
       </TabPane>
       <Button layoutX="702.0" layoutY="1.0" mnemonicParsing="false" onAction="#ActualizarEstados" text="Actualizar Todo" />
+      <Button layoutX="608.0" layoutY="1.0" mnemonicParsing="false" onAction="#btnBuscarLibroCambiar" text="Buscar Libro" />
    </children>
 </Pane>

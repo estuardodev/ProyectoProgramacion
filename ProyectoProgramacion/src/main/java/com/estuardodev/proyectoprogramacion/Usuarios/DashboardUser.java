@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import javafx.application.Platform;
+
 public class DashboardUser implements StageAwareController, Initializable {
 
     private Stage stage;
@@ -638,18 +640,35 @@ public class DashboardUser implements StageAwareController, Initializable {
         ActualizarTodo();
     }
 
-    private void ActualizarTodo(){
+    private void ActualizarTodo() {
+        // Mostramos el indicador de carga antes de iniciar las tareas asíncronas
+        idCargar.setVisible(true);
+
+        // Creamos un CompletableFuture que se ejecuta en un hilo separado
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-                idCargar.setVisible(true);
             verificarMultas();
             CargarDevolverBox(DevolverCombo, DevolverLabel);
         });
+
+        // Después de completar las tareas anteriores, ejecutamos las siguientes tareas en el hilo de la interfaz de usuario
         future.thenRun(() -> {
-            MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
-            adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
-            adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
-            idCargar.setVisible(false);
+            Platform.runLater(() -> {
+                MultasCargar(PagarPagado, PagarCantidad, PagarPendientes, PagarTotal, PerfilMultas, PerfilMultasTotal);
+                adminMetodos.cargarListView(HistorialList, "accion", "historial_acciones", idLabel.getText());
+                adminMetodos.comboBoxConsultar("titulo", "libro", PrestarCombo);
+                idCargar.setVisible(false);
+            });
+        }).exceptionally(ex -> {
+            ex.printStackTrace();
+            Platform.runLater(() -> idCargar.setVisible(false));
+            return null;
         });
+    }
+
+    @FXML
+    protected void btnBuscarLibroCambiar() throws IOException {
+        ProyectoApplication pa = new ProyectoApplication();
+        pa.mostrarVista(stage, "BuscarLibro.fxml");
     }
 
 }

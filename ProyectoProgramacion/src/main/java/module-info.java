@@ -15,6 +15,9 @@ module com.estuardodev.proyectoprogramacion {
     exports com.estuardodev.proyectoprogramacion.DataBase;
     exports com.estuardodev.proyectoprogramacion.Admin;
     exports com.estuardodev.proyectoprogramacion.Usuarios;
+
+    opens com.estuardodev.proyectoprogramacion.Clases to javafx.base;
+
     opens com.estuardodev.proyectoprogramacion.DataBase to javafx.fxml;
     opens com.estuardodev.proyectoprogramacion.Admin to javafx.fxml;
     opens com.estuardodev.proyectoprogramacion.Usuarios to javafx.fxml;

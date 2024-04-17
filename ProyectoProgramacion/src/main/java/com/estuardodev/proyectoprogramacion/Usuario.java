@@ -4,8 +4,13 @@ import com.estuardodev.proyectoprogramacion.Clases.CodigoTelefono;
 import com.estuardodev.proyectoprogramacion.DataBase.DbConexion;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Usuario implements Serializable {
 
@@ -28,6 +33,8 @@ public class Usuario implements Serializable {
     protected boolean recopilar;
     protected String librosPrestados;
 
+    public Usuario(){}
+
     public Usuario(int _id, String _nombre, String _dpi, int _codigo, String _telefono,
                    String _username, String _correo, String _password, String _address,
                    boolean is_admin) {
@@ -42,7 +49,6 @@ public class Usuario implements Serializable {
         address = _address;
         admin = is_admin;
     }
-
     public Usuario(int id, String identificador, String nombre, String telefono, int cantidadPrestamo, String vencimientoPrestamo,
                    String direccion, int multasPendientes, double totalDeudasPendientes, int codigoTelefono,
                    String username, String password, boolean esAdmin, boolean activo, String email, String resend,
@@ -125,6 +131,65 @@ public class Usuario implements Serializable {
         }
     }
 
+    public int CrearAdminInAdmin(){
+        String verUsername = "SELECT * FROM usuario WHERE username = ?";
+        String verCorreo = "SELECT * FROM usuario WHERE email = ?";
+        String verDPI = "SELECT * FROM usuario WHERE identificador = ?";
+
+        try {
+            PreparedStatement st = DbConexion.Conexion().prepareStatement(verUsername);
+            PreparedStatement st1 = DbConexion.Conexion().prepareStatement(verCorreo);
+            PreparedStatement st2 = DbConexion.Conexion().prepareStatement(verDPI);
+
+            st.setString(1, getUsername());
+            st1.setString(1, getCorreo());
+            st2.setString(1, getDpi());
+
+            ResultSet rs = st.executeQuery();
+            ResultSet rs1 = st1.executeQuery();
+            ResultSet rs2 = st2.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Existe username");
+                return 5; // Username Existe
+            }
+            if (rs1.next()) {
+                System.out.println("Existe Correo");
+                return 6; // Correo Existe
+            }
+            if (rs2.next()) {
+                System.out.println("Existe dpi");
+                return 7; // Dpi Existe
+            }
+
+            String user = "INSERT INTO usuario(identificador, nombre, telefono, direccion," +
+                    "codigo_telefono, username, password, es_admin, activo, email, recopilar) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement ps = DbConexion.Conexion().prepareStatement(user);
+            ps.setString(1, getDpi());
+            ps.setString(2, getNombre());
+            ps.setString(3, getTelefono());
+            ps.setString(4, getAddress());
+            ps.setInt(5, getCodigo());
+            ps.setString(6, getUsername());
+            ps.setString(7, getPassword());
+            ps.setBoolean(8, getAdmin());
+            ps.setBoolean(9, isActivo());
+            ps.setString(10, getCorreo());
+            ps.setBoolean(11, isRecopilar());
+
+            ps.executeUpdate();
+            return 0;
+
+
+        }catch (SQLException sql){
+            sql.printStackTrace();
+        }
+
+        return 9;
+    }
+
     public boolean getAdmin(){
         return admin;
     }
@@ -166,5 +231,192 @@ public class Usuario implements Serializable {
 
     public void EliminarUsuario(){
         DbConexion.eliminarRegistro("usuario", "id", "", Integer.toString(id), "");
+    }
+
+    public ArrayList<Usuario> obtenerTodo(){
+
+        Statement st = null;
+        ResultSet rs = null;
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM usuario";
+            st = DbConexion.Conexion().createStatement();
+            rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setDpi(rs.getString(2));
+                usuario.setNombre(rs.getString(3));
+                usuario.setTelefono(rs.getString(4));
+                usuario.setAddress(rs.getString(7));
+                usuario.setUsername(rs.getString(11));
+                usuario.setCorreo(rs.getString(15));
+
+                usuarios.add(usuario);
+            }
+
+            return usuarios;
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+
+                if (st != null) {
+                    st.close();
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return null;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDpi() {
+        return dpi;
+    }
+
+    public void setDpi(String dpi) {
+        this.dpi = dpi;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public int getCantidadPrestamo() {
+        return cantidadPrestamo;
+    }
+
+    public void setCantidadPrestamo(int cantidadPrestamo) {
+        this.cantidadPrestamo = cantidadPrestamo;
+    }
+
+    public String getVencimientoPrestamo() {
+        return vencimientoPrestamo;
+    }
+
+    public void setVencimientoPrestamo(String vencimientoPrestamo) {
+        this.vencimientoPrestamo = vencimientoPrestamo;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getMultasPendientes() {
+        return multasPendientes;
+    }
+
+    public void setMultasPendientes(int multasPendientes) {
+        this.multasPendientes = multasPendientes;
+    }
+
+    public double getTotalDeudasPendientes() {
+        return totalDeudasPendientes;
+    }
+
+    public void setTotalDeudasPendientes(double totalDeudasPendientes) {
+        this.totalDeudasPendientes = totalDeudasPendientes;
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getResend() {
+        return resend;
+    }
+
+    public void setResend(String resend) {
+        this.resend = resend;
+    }
+
+    public boolean isRecopilar() {
+        return recopilar;
+    }
+
+    public void setRecopilar(boolean recopilar) {
+        this.recopilar = recopilar;
+    }
+
+    public String getLibrosPrestados() {
+        return librosPrestados;
+    }
+
+    public void setLibrosPrestados(String librosPrestados) {
+        this.librosPrestados = librosPrestados;
     }
 }
